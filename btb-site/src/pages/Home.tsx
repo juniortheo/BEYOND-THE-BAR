@@ -15,7 +15,6 @@ import { Flag } from '../components/ui/Flag'
 import { Icon } from '../components/ui/Icon'
 import { TLink } from '../components/TLink'
 import { ProgrammeVisual } from '../components/ProgrammeVisual'
-import { CTABand } from '../components/CTABand'
 
 const quick = [
   { slug: 'webinar-series', icon: Mic },
@@ -216,7 +215,7 @@ export default function Home() {
           <div className="wrap grid flex-1 grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <Eyebrow className="j-fade">{site.regions}</Eyebrow>
-              <h1 className="j-h1 h-display mt-6 text-[clamp(2.6rem,4.3vw,5.2rem)]">
+              <h1 className="j-h1 h-display mt-6 text-[clamp(2.6rem,4.3vw,4rem)]">
                 <span className="whitespace-nowrap">Re-thinking</span> <span className="accent text-gold-ink">legal</span> practice
               </h1>
               <p className="j-fade mt-6 max-w-[36ch] font-serif text-[1.1rem] leading-relaxed text-navy/80">
@@ -579,8 +578,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <CTABand />
     </div>
   )
 }

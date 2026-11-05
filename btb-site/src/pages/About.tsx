@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import { PageHero } from '../components/PageHero'
-import { CTABand } from '../components/CTABand'
 import { Eyebrow } from '../components/ui/Eyebrow'
 import { Pattern } from '../components/ui/Pattern'
 import { Flag } from '../components/ui/Flag'
@@ -185,12 +184,10 @@ export default function About() {
           </div>
         </div>
         <div className="relative mt-16 h-[34vw] max-h-[420px] min-h-[180px] overflow-hidden">
-          <img src={asset('img/kigali-skyline.webp')} alt="City skyline in East Africa" loading="lazy" className="ab-skyline absolute inset-x-0 bottom-0 w-full object-cover object-bottom" />
+          <img src={asset('img/kigali-convention-centre.webp')} alt="Kigali Convention Centre lit up at dusk, Rwanda" loading="lazy" className="ab-skyline absolute inset-x-0 bottom-0 h-[125%] w-full object-cover object-[50%_62%]" />
           <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy/10 to-transparent" />
         </div>
       </section>
-
-      <CTABand />
     </div>
   )
 }
