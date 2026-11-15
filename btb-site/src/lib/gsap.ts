@@ -12,6 +12,13 @@ export const DESKTOP_QUERY = '(min-width: 1024px)'
 export const DESKTOP_MOTION_QUERY = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)'
 export const isDesktop = () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches
 
+/**
+ * Heading lines revealed through a SplitText mask start this far below their resting place.
+ * The masks (.split-line-mask) clip a little beyond each line so descenders like g, p and y
+ * are never cut off; this offset clears that extra area so nothing peeks out at the start.
+ */
+export const LINE_FROM = 155
+
 export const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 

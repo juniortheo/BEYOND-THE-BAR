@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import { gsap, SplitText, useGSAP, DESKTOP_MOTION_QUERY } from './gsap'
+import { gsap, SplitText, useGSAP, DESKTOP_MOTION_QUERY, LINE_FROM } from './gsap'
 
 /**
  * Scroll reveals inside a scope (desktop only):
@@ -41,10 +41,11 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
           SplitText.create(el, {
             type: 'lines',
             mask: 'lines',
+            linesClass: 'split-line',
             autoSplit: true,
             onSplit: (self) =>
               gsap.from(self.lines, {
-                yPercent: 110,
+                yPercent: LINE_FROM,
                 duration: 1.2,
                 stagger: 0.08,
                 scrollTrigger: { trigger: el, start: 'top 90%', once: true },

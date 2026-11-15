@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { ArrowRight, ArrowUpRight, GraduationCap, Globe, Landmark, Mic, Play } from 'lucide-react'
 import { asset } from '../lib/asset'
-import { gsap, ScrollTrigger, SplitText, useGSAP, queueRefresh } from '../lib/gsap'
+import { gsap, ScrollTrigger, SplitText, useGSAP, queueRefresh, LINE_FROM } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { about, programmes, secretariat, site } from '../data/site'
 import { webinarTwo } from '../data/webinarTwo'
@@ -59,8 +59,9 @@ export default function Home() {
             SplitText.create('.j-h1', {
               type: 'lines',
               mask: 'lines',
+            linesClass: 'split-line',
               autoSplit: true,
-              onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 0.9, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
+              onSplit: (self) => gsap.from(self.lines, { yPercent: LINE_FROM, duration: 0.9, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
             })
             intro.from('.j-fade', { y: 12, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }, 0.3)
             return
@@ -78,8 +79,9 @@ export default function Home() {
           SplitText.create('.j-h1', {
             type: 'lines',
             mask: 'lines',
+            linesClass: 'split-line',
             autoSplit: true,
-            onSplit: (self) => gsap.from(self.lines, { yPercent: 115, duration: 1.3, stagger: 0.1, delay: 0.55 }),
+            onSplit: (self) => gsap.from(self.lines, { yPercent: LINE_FROM, duration: 1.3, stagger: 0.1, delay: 0.55 }),
           })
           intro.from('.j-fade', { y: 24, opacity: 0, duration: 1.1, stagger: 0.08 }, 0.7)
 
