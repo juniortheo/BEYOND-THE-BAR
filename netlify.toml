@@ -1,0 +1,16 @@
+# Netlify build settings for the Beyond the Bar website.
+# The site's code lives in the btb-site/ folder, so Netlify must build from there.
+
+[build]
+  base = "btb-site"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: send every route (e.g. /programmes/conferences) to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
