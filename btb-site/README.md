@@ -23,6 +23,7 @@ Deploy `dist/` to any static host. Clean URLs need a fallback to `index.html`:
 | `/programmes` | Index of all programmes |
 | `/programmes/:slug` | One page per programme: `webinar-series`, `executive-training`, `conferences`, `community-impact`, `research-hub`, `cross-border-desk`, `alumni-network` |
 | `/sessions` | Webinar & Talk Show Series and the latest session |
+| `/reports` | All reports, each with a Download PDF button |
 | `/secretariat` | All ten secretariat members, filterable by country |
 | `/contact` | Email, phone numbers, LinkedIn and an enquiry form that writes an email to the secretariat |
 
@@ -39,9 +40,14 @@ Keep new mobile changes behind `max-lg:` classes, `(pointer: coarse)` media quer
 
 ## Reports
 
-The **Reports** item in the main menu opens the latest report PDF in a new tab. Reports are files in `public/reports/`, listed in `reports` in `src/data/site.ts` (newest first). To publish a new one, add the PDF to that folder and put it first in the list.
+`/reports` is the central Reports page, in the main menu on desktop and mobile. Each report is a card with its cover, a short description and a **Download PDF** button.
 
-The old report page address (`/sessions/ai-in-legal-practice`) redirects to the PDF through `public/_redirects`.
+To publish a new report:
+
+1. Add the PDF to `public/downloads/` and a cover image (page 1 of the PDF works well) to `public/img/`.
+2. Add an entry at the top of `reports` in `src/data/site.ts` with its title, description, file, page count and size.
+
+The old report page address (`/sessions/ai-in-legal-practice`) redirects to `/reports` through `public/_redirects`.
 
 ## Editing content
 

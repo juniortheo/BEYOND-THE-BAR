@@ -326,11 +326,42 @@ export const secretariat: { name: string; role: string; country: Country; photo:
   { name: 'Ineza Melissa Julie', role: 'Coordinator, Communications & Public Affairs', country: 'rw', photo: 'img/team/ineza-melissa-julie.webp' },
 ]
 
-/** Published reports, opened as PDFs from the "Reports" item in the main menu. Newest first. */
-export const reports = [
+/**
+ * Reports listed on the Reports page (/reports), newest first.
+ * To publish a new one: add the PDF to public/downloads/, a cover image to public/img/,
+ * and an entry at the top of this list.
+ */
+export type Report = {
+  id: string
+  kind: string
+  series: string
+  date: string
+  title: string
+  subtitle: string
+  description: string
+  file: string
+  downloadName: string
+  pages: number
+  size: string
+  cover: string
+  watch?: string
+}
+
+export const reports: Report[] = [
   {
-    title: 'Webinar Two: AI in Legal Practice',
+    id: 'webinar-two',
+    kind: 'Session report',
+    series: 'Webinar Two',
+    date: '19 August 2026',
+    title: 'AI in Legal Practice',
     subtitle: 'Are You Accidentally Breaching Data Protection Law?',
-    file: 'reports/BTB-Webinar-Two-Report-AI-in-Legal-Practice.pdf',
+    description:
+      'A panel from Kenya, Rwanda and Uganda on when everyday use of AI tools becomes a breach of data protection law. Includes the live poll results, each panellist\u2019s arguments and two practical checklists for adopting AI tools.',
+    file: 'downloads/BTB-Webinar-Two-Report-AI-in-Legal-Practice.pdf',
+    downloadName: 'BTB-Webinar-Two-Report-AI-in-Legal-Practice.pdf',
+    pages: 9,
+    size: '4.7 MB',
+    cover: 'img/reports-webinar-two-cover.webp',
+    watch: 'https://www.youtube.com/watch?v=VnhLyd6OX5g',
   },
 ]

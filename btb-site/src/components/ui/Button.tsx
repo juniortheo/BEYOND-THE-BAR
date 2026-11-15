@@ -15,6 +15,8 @@ type Props = {
   className?: string
   icon?: ReactNode
   magnetic?: boolean
+  /** With `href`: download the file under this name instead of opening it. */
+  download?: string
 }
 
 const styles: Record<Variant, string> = {
@@ -26,7 +28,7 @@ const styles: Record<Variant, string> = {
 }
 
 /** Pill button with a magnetic pull and an arrow chip that turns on hover. */
-export function Button({ to, href, onClick, type = 'button', variant = 'navy', children, className, icon, magnetic = true }: Props) {
+export function Button({ to, href, onClick, type = 'button', variant = 'navy', children, className, icon, magnetic = true, download }: Props) {
   const ref = useRef<HTMLSpanElement>(null)
 
   useGSAP(
@@ -68,13 +70,24 @@ export function Button({ to, href, onClick, type = 'button', variant = 'navy', c
         className="absolute inset-0 origin-bottom scale-y-0 rounded-full bg-[var(--fill)] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/btn:scale-y-100"
       />
       <span className="relative">{children}</span>
-      <span className="relative grid size-9 place-items-center rounded-full bg-[var(--chip)] text-[var(--chip-fg)] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/btn:rotate-45">
+      <span
+        className={clsx(
+          'relative grid size-9 place-items-center rounded-full bg-[var(--chip)] text-[var(--chip-fg)] transition-transform duration-500 ease-[var(--ease-out-expo)]',
+          download ? 'group-hover/btn:translate-y-0.5' : 'group-hover/btn:rotate-45',
+        )}
+      >
         {icon ?? <ArrowUpRight className="size-4" strokeWidth={2} />}
       </span>
     </span>
   )
 
   if (to) return <TLink to={to} className="btn-press inline-flex rounded-full">{inner}</TLink>
+  if (href && download)
+    return (
+      <a href={href} download={download} className="btn-press inline-flex rounded-full">
+        {inner}
+      </a>
+    )
   if (href)
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className="btn-press inline-flex rounded-full">

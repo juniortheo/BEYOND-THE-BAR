@@ -9,7 +9,6 @@ import { webinarTwo } from '../data/webinarTwo'
 import { Button } from '../components/ui/Button'
 import { Eyebrow } from '../components/ui/Eyebrow'
 import { Pattern } from '../components/ui/Pattern'
-import { Counter } from '../components/ui/Counter'
 import { Marquee } from '../components/ui/Marquee'
 import { Flag } from '../components/ui/Flag'
 import { Icon } from '../components/ui/Icon'
@@ -159,13 +158,6 @@ export default function Home() {
           scaleX: 1,
           ease: 'none',
           scrollTrigger: { trigger: pin, start: 'top top', end: () => `+=${distance()}`, scrub: true },
-        })
-      })
-
-      /* ---------------- poll bars ---------------- */
-      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-        gsap.utils.toArray<HTMLElement>('.poll-bar').forEach((bar) => {
-          gsap.from(bar, { scaleX: 0, transformOrigin: 'left center', duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: bar, start: 'top 90%', once: true } })
         })
       })
     },
@@ -396,7 +388,7 @@ export default function Home() {
       {/* ============================ LATEST SESSION ============================ */}
       <section className="on-navy relative z-10 overflow-hidden bg-navy text-ivory" aria-labelledby="sess-h">
         <Pattern className="top-0 left-0 h-full w-[50%] text-ivory opacity-[0.035]" size={420} />
-        <div className="wrap relative grid gap-16 py-24 md:py-32 lg:grid-cols-12">
+        <div className="wrap relative grid gap-8 py-24 md:py-32 lg:grid-cols-12 lg:items-center lg:gap-16">
           <div className="lg:col-span-6">
             <Eyebrow light data-reveal>
               {webinarTwo.series} · {webinarTwo.date}
@@ -410,18 +402,21 @@ export default function Home() {
             <p data-reveal className="mt-8 flex items-center gap-4 font-serif text-xl italic text-ivory/85">
               <span className="h-px w-12 bg-ivory/40" /> {webinarTwo.theme}
             </p>
-            <p data-reveal className="mt-6 max-w-[56ch] font-serif text-lg leading-relaxed text-ivory/75">
+          </div>
+
+          <div className="lg:col-span-5 lg:col-start-8">
+            <p data-reveal className="max-w-[56ch] font-serif text-lg leading-relaxed text-ivory/75">
               {webinarTwo.conversation[1].split('. ').slice(0, 3).join('. ')}.
             </p>
             <div data-reveal className="mt-10 flex flex-wrap gap-3">
-              <Button href={asset(webinarTwo.reportPdf)} variant="gold">
+              <Button to="/reports" variant="gold">
                 Read the session report
               </Button>
               <Button href={webinarTwo.youtube} variant="ghost-light" icon={<Play className="size-4" />}>
                 Watch on YouTube
               </Button>
             </div>
-            <ul data-stagger className="mt-12 flex flex-wrap gap-3">
+            <ul data-stagger className="mt-10 flex flex-wrap gap-3">
               {webinarTwo.room.slice(0, 4).map((r) => (
                 <li key={r.name} className="flex items-center gap-3 rounded-full bg-ivory/[0.06] py-1.5 pr-4 pl-1.5 ring-1 ring-ivory/10">
                   <img src={asset(r.photo)} alt="" className="size-9 rounded-full object-cover" loading="lazy" />
@@ -434,35 +429,6 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="lg:col-span-5 lg:col-start-8">
-            <div data-reveal className="rounded-[28px] bg-navy-2 p-7 ring-1 ring-ivory/10 md:p-10">
-              <p className="eyebrow text-gold">What the room told us</p>
-              <p className="mt-6 text-[15px] text-ivory/70">{webinarTwo.polls.one.question}</p>
-              <p className="font-display-x mt-2 text-[clamp(4.5rem,9vw,7.5rem)] leading-none font-bold text-ivory tabular">
-                <Counter value={88} suffix="%" />
-              </p>
-              <div className="mt-5 flex h-12 overflow-hidden rounded-lg">
-                <div className="poll-bar flex items-center bg-gold px-3 text-[12px] font-semibold text-navy" style={{ width: '88%' }}>
-                  YES · 81 OF 92
-                </div>
-                <div className="flex flex-1 items-center justify-center bg-navy-3 text-[12px] font-semibold text-ivory/80">12%</div>
-              </div>
-              <p className="mt-10 text-[15px] text-ivory/70">Aware of the issues and already implementing the recommendations</p>
-              <div className="mt-4 space-y-3">
-                {webinarTwo.polls.two.answers.map((a) => (
-                  <div key={a.label} className="grid grid-cols-[3.2rem_1fr] items-center gap-3">
-                    <span className={clsx('font-display-x text-lg font-semibold tabular', a.highlight ? 'text-gold' : 'text-ivory')}>{a.pct}%</span>
-                    <div className="h-3 overflow-hidden rounded-full bg-navy-3">
-                      <div className={clsx('poll-bar h-full rounded-full', a.highlight ? 'bg-gold' : 'bg-taupe')} style={{ width: `${a.pct}%` }} />
-                    </div>
-                    <span className="col-start-2 -mt-1 text-[13px] text-ivory/60">{a.label}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-8 border-t border-ivory/10 pt-5 font-serif text-[15px] italic leading-relaxed text-ivory/75">{webinarTwo.polls.reading}</p>
-            </div>
           </div>
         </div>
       </section>

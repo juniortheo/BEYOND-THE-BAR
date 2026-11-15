@@ -6,7 +6,6 @@ import { webinarTwo } from '../data/webinarTwo'
 import { ProgrammeVisual } from '../components/ProgrammeVisual'
 import { EnquiryForm } from '../components/EnquiryForm'
 import { TLink } from '../components/TLink'
-import { asset } from '../lib/asset'
 import { Eyebrow } from '../components/ui/Eyebrow'
 import { Icon } from '../components/ui/Icon'
 import { Button } from '../components/ui/Button'
@@ -164,10 +163,8 @@ export default function ProgrammePage() {
 
         {(p.slug === 'webinar-series' || p.slug === 'research-hub' || p.slug === 'executive-training') && (
           <div className="wrap mt-16">
-            <a
-              href={asset(webinarTwo.reportPdf)}
-              target="_blank"
-              rel="noopener noreferrer"
+            <TLink
+              to="/reports"
               data-reveal
               className="group relative grid gap-6 overflow-hidden rounded-[28px] bg-navy p-8 text-ivory md:grid-cols-[1fr_auto] md:items-center md:p-12"
             >
@@ -186,7 +183,7 @@ export default function ProgrammePage() {
               <span className="relative grid size-16 place-items-center rounded-full bg-gold text-navy transition-transform duration-500 group-hover:rotate-45">
                 <ArrowUpRight className="size-6" />
               </span>
-            </a>
+            </TLink>
           </div>
         )}
       </section>
