@@ -11,6 +11,7 @@ const explore = [
   { to: '/about', label: 'About BTB' },
   { to: '/programmes', label: 'Programmes' },
   { to: '/sessions', label: 'Sessions' },
+  { to: '/reports', label: 'Reports' },
   { to: '/secretariat', label: 'Secretariat' },
   { to: '/contact', label: 'Contact' },
 ]
