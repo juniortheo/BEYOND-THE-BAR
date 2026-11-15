@@ -25,13 +25,13 @@ const quick = [
 
 /* positions of the audience chips around the statue (desktop) */
 const ring = [
-  'left-[6%] top-[22%]',
-  'left-[14%] top-[46%]',
-  'left-[4%] top-[70%]',
-  'right-[6%] top-[20%]',
-  'right-[15%] top-[44%]',
-  'right-[5%] top-[66%]',
-  'left-1/2 -translate-x-1/2 bottom-[6%]',
+  'lg:left-[6%] lg:top-[22%]',
+  'lg:left-[14%] lg:top-[46%]',
+  'lg:left-[4%] lg:top-[70%]',
+  'lg:right-[6%] lg:top-[20%]',
+  'lg:right-[15%] lg:top-[44%]',
+  'lg:right-[5%] lg:top-[66%]',
+  'lg:left-1/2 lg:-translate-x-1/2 lg:bottom-[6%]',
 ]
 
 export default function Home() {
@@ -52,6 +52,20 @@ export default function Home() {
         (ctx) => {
           const { desktop, reduce } = ctx.conditions as { desktop: boolean; reduce: boolean }
           if (reduce) return
+
+          // Phones and tablets: a single hero entrance. No sticky stage, nothing tied to scroll.
+          if (!desktop) {
+            const intro = gsap.timeline({ delay: 0.15 })
+            intro.from('.j-statue-m', { yPercent: 8, opacity: 0, duration: 1, ease: 'expo.out' }, 0.25)
+            SplitText.create('.j-h1', {
+              type: 'lines',
+              mask: 'lines',
+              autoSplit: true,
+              onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 0.9, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
+            })
+            intro.from('.j-fade', { y: 12, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }, 0.3)
+            return
+          }
 
           // intro
           const intro = gsap.timeline({ delay: 0.2 })
@@ -76,19 +90,12 @@ export default function Home() {
           const W = () => window.innerWidth
           const H = () => window.innerHeight
           type S = gsap.TweenVars
-          const states: S[] = desktop
-            ? [
-                { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 },
-                { x: () => -W() * 0.25, y: () => H() * 0.02, scale: 0.92, rotation: -3, opacity: 1 },
-                { x: () => W() * 0.25, y: () => H() * 0.02, scale: 0.88, rotation: 3, opacity: 1 },
-                { x: 0, y: () => -H() * 0.05, scale: 0.7, rotation: 0, opacity: 1 },
-              ]
-            : [
-                { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 },
-                { x: () => -W() * 0.3, y: 0, scale: 0.86, rotation: -3, opacity: 0.2 },
-                { x: () => W() * 0.3, y: 0, scale: 0.86, rotation: 3, opacity: 0.2 },
-                { x: 0, y: () => -H() * 0.06, scale: 0.7, rotation: 0, opacity: 0.32 },
-              ]
+          const states: S[] = [
+            { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 },
+            { x: () => -W() * 0.25, y: () => H() * 0.02, scale: 0.92, rotation: -3, opacity: 1 },
+            { x: () => W() * 0.25, y: () => H() * 0.02, scale: 0.88, rotation: 3, opacity: 1 },
+            { x: 0, y: () => -H() * 0.05, scale: 0.7, rotation: 0, opacity: 1 },
+          ]
           ;['.j-who', '.j-mission', '.j-ring'].forEach((sel, i) => {
             gsap.fromTo('.j-statue', states[i], {
               ...states[i + 1],
@@ -164,7 +171,7 @@ export default function Home() {
       })
 
       /* ---------------- poll bars ---------------- */
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
+      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
         gsap.utils.toArray<HTMLElement>('.poll-bar').forEach((bar) => {
           gsap.from(bar, { scaleX: 0, transformOrigin: 'left center', duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: bar, start: 'top 90%', once: true } })
         })
@@ -180,7 +187,7 @@ export default function Home() {
       {/* ============================ JOURNEY ============================ */}
       <div className="relative">
         {/* sticky stage with Lady Justice */}
-        <div className="pointer-events-none sticky top-0 z-0 h-[100svh] overflow-hidden" aria-hidden="true">
+        <div className="pointer-events-none sticky top-0 z-0 h-[100svh] overflow-hidden max-lg:hidden" aria-hidden="true">
           <div className="j-giant-wrap absolute inset-x-0 top-[30%] flex justify-center lg:top-[24%]">
             <p className="j-giant outline-word font-display-x text-[clamp(5.5rem,21vw,22rem)] leading-none font-extrabold whitespace-nowrap [font-variation-settings:'wdth'_125]">
               BEYOND
@@ -211,7 +218,7 @@ export default function Home() {
         </div>
 
         {/* ---- 1. hero ---- */}
-        <section className="relative z-10 -mt-[100svh] flex min-h-[100svh] flex-col pt-[calc(var(--nav-h)+env(safe-area-inset-top,0px)+28px)] pb-8 lg:pt-[calc(var(--nav-h)+48px)]">
+        <section className="relative z-10 flex flex-col pt-[calc(var(--nav-h)+env(safe-area-inset-top,0px)+28px)] pb-12 lg:-mt-[100svh] lg:min-h-[100svh] lg:pt-[calc(var(--nav-h)+48px)] lg:pb-8">
           <div className="wrap grid flex-1 grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <Eyebrow className="j-fade">{site.regions}</Eyebrow>
@@ -278,8 +285,23 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Lady Justice in the page flow on phones and tablets, standing on "the bar" */}
+          <div className="wrap mt-6 lg:hidden" aria-hidden="true">
+            <div className="relative mx-auto h-[min(54svh,520px)]" style={{ aspectRatio: '480 / 984' }}>
+              <div className="absolute top-[8%] left-1/2 aspect-square w-[170%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(207,160,113,0.4)_0%,rgba(207,160,113,0.12)_38%,transparent_66%)]" />
+              <img
+                src={asset('img/statue-justice.webp')}
+                alt=""
+                width={960}
+                height={1968}
+                className="j-statue-m relative h-full w-full object-contain drop-shadow-[0_28px_32px_rgba(8,38,64,0.24)]"
+              />
+            </div>
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-gold to-transparent" />
+          </div>
+
           {/* bottom row */}
-          <div className="wrap mt-[42svh] grid gap-8 lg:mt-0 lg:grid-cols-12 lg:items-end">
+          <div className="wrap mt-10 grid gap-8 lg:mt-0 lg:grid-cols-12 lg:items-end">
             <div className="j-fade lg:col-span-5">
               <p className="eyebrow text-taupe-ink">An initiative by</p>
               <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -288,7 +310,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="j-fade grid grid-cols-2 gap-6 rounded-2xl bg-ivory/70 p-4 backdrop-blur-sm lg:col-span-4 lg:col-start-9 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+            <div className="j-fade grid grid-cols-2 gap-6 max-lg:border-t max-lg:border-line max-lg:pt-6 lg:col-span-4 lg:col-start-9">
               <div>
                 <p className="text-[13px] leading-tight text-taupe-ink">Attendees at<br />Webinar Two</p>
                 <p className="font-display-x mt-1 text-[2.6rem] leading-none font-semibold tabular">{webinarTwo.attendees}</p>
@@ -302,9 +324,9 @@ export default function Home() {
         </section>
 
         {/* ---- 2. who we are ---- */}
-        <section className="j-who relative z-10 flex min-h-[100svh] items-center py-24">
+        <section className="j-who relative z-10 flex items-center py-16 max-lg:border-t max-lg:border-line lg:min-h-[100svh] lg:py-24">
           <div className="wrap grid lg:grid-cols-12">
-            <div className="rounded-3xl bg-ivory/75 p-6 backdrop-blur-[2px] sm:p-8 lg:col-span-6 lg:col-start-7 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+            <div className="lg:col-span-6 lg:col-start-7">
               <Eyebrow data-reveal>Who we are</Eyebrow>
               <h2 data-split className="h-section mt-6 text-[clamp(2.2rem,4.4vw,4rem)]">
                 Where legal practice meets <span className="accent text-gold-ink">business, leadership</span> and regional integration.
@@ -322,9 +344,9 @@ export default function Home() {
         </section>
 
         {/* ---- 3. mission & vision ---- */}
-        <section className="j-mission relative z-10 flex min-h-[100svh] items-center py-24">
+        <section className="j-mission relative z-10 flex items-center py-16 max-lg:bg-paper lg:min-h-[100svh] lg:py-24">
           <div className="wrap grid lg:grid-cols-12">
-            <div className="space-y-12 rounded-3xl bg-ivory/75 p-6 backdrop-blur-[2px] sm:p-8 lg:col-span-6 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+            <div className="space-y-10 lg:col-span-6 lg:space-y-12">
               <div>
                 <Eyebrow data-reveal>Our mission</Eyebrow>
                 <p data-split className="mt-5 font-serif text-[clamp(1.6rem,2.8vw,2.5rem)] leading-[1.22] tracking-[-0.01em] text-navy">
@@ -343,7 +365,7 @@ export default function Home() {
         </section>
 
         {/* ---- 4. who we bring together ---- */}
-        <section className="j-ring relative z-10 min-h-[100svh] py-24">
+        <section className="j-ring relative z-10 py-16 lg:min-h-[100svh] lg:py-24">
           <div className="wrap text-center">
             <Eyebrow data-reveal className="justify-center">
               Who we bring together
@@ -357,11 +379,11 @@ export default function Home() {
               <li
                 key={a}
                 className={clsx(
-                  'j-chip rounded-full bg-paper/90 px-5 py-2.5 text-[15px] font-medium text-navy shadow-[0_10px_30px_-12px_rgba(8,38,64,0.35)] ring-1 ring-gold/40 backdrop-blur lg:absolute lg:px-6 lg:py-3 lg:text-[17px]',
+                  'j-chip rounded-full bg-paper/90 px-4 py-2 text-[15px] font-medium text-navy ring-1 ring-gold/40 lg:absolute lg:px-6 lg:py-3 lg:text-[17px] lg:shadow-[0_10px_30px_-12px_rgba(8,38,64,0.35)] lg:backdrop-blur',
                   ring[i],
                 )}
               >
-                <span className="mr-2 text-gold-ink">◆</span>
+                <span className="mr-2 text-gold-ink max-lg:hidden">◆</span>
                 {a}
               </li>
             ))}
@@ -371,7 +393,7 @@ export default function Home() {
 
       {/* ============================ PROGRAMMES (horizontal) ============================ */}
       <section className="relative z-10 bg-paper" aria-labelledby="prog-h">
-        <div className="h-pin relative flex min-h-[100svh] flex-col justify-center overflow-hidden py-20 lg:py-0">
+        <div className="h-pin relative flex flex-col justify-center overflow-hidden py-16 lg:min-h-[100svh] lg:py-0">
           <div className="wrap flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <Eyebrow data-reveal>Our programmes</Eyebrow>
@@ -386,17 +408,18 @@ export default function Home() {
               <Button to="/programmes" variant="ghost">
                 All programmes
               </Button>
+              <span className="text-[13px] text-taupe-ink lg:hidden">Swipe to see all seven</span>
             </div>
           </div>
 
-          <div className="h-track mt-12 flex flex-col gap-16 px-[var(--gutter)] lg:mt-14 lg:w-max lg:flex-row lg:gap-10 lg:pr-[12vw]">
+          <div className="h-track mt-8 flex gap-4 px-[var(--gutter)] max-lg:snap-x max-lg:snap-mandatory max-lg:scroll-px-[var(--gutter)] max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:pb-2 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:mt-14 lg:w-max lg:flex-row lg:gap-10 lg:pr-[12vw]">
             {programmes.map((p) => (
               <article
                 key={p.slug}
-                className="hcard-item grid gap-8 lg:w-[min(1040px,78vw)] lg:shrink-0 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:gap-12"
+                className="hcard-item grid gap-8 max-lg:w-[min(84vw,440px)] max-lg:shrink-0 max-lg:snap-start max-lg:content-start max-lg:gap-5 lg:w-[min(1040px,78vw)] lg:shrink-0 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:gap-12"
               >
                 <TLink to={`/programmes/${p.slug}`} className="block rounded-[28px]" aria-label={p.title}>
-                  <ProgrammeVisual p={p} className="h-[46svh] min-h-[300px] lg:h-[58vh] lg:max-h-[560px]" />
+                  <ProgrammeVisual p={p} className="h-[320px] min-h-[300px] sm:h-[360px] lg:h-[58vh] lg:max-h-[560px]" />
                 </TLink>
                 <div className="pb-2">
                   <div className="flex items-center gap-3">

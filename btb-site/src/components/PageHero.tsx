@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { TLink } from './TLink'
 import { Eyebrow } from './ui/Eyebrow'
 import { Pattern } from './ui/Pattern'
-import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, SplitText, useGSAP, prefersReducedMotion, isDesktop } from '../lib/gsap'
 
 type Crumb = { to?: string; label: string }
 
@@ -28,15 +28,27 @@ export function PageHero({
   useGSAP(
     () => {
       if (prefersReducedMotion()) return
-      const tl = gsap.timeline({ delay: 0.35 })
+      // Phones and tablets get a shorter version of the same entrance, so content isn't held back.
+      const desk = isDesktop()
+      const tl = gsap.timeline({ delay: desk ? 0.35 : 0.1 })
       SplitText.create('.ph-title', {
         type: 'lines',
         mask: 'lines',
         autoSplit: true,
-        onSplit: (self) => gsap.from(self.lines, { yPercent: 115, duration: 1.3, stagger: 0.09, delay: 0.35 }),
+        onSplit: (self) =>
+          gsap.from(
+            self.lines,
+            desk
+              ? { yPercent: 115, duration: 1.3, stagger: 0.09, delay: 0.35 }
+              : { yPercent: 110, duration: 0.8, stagger: 0.06, delay: 0.1, ease: 'expo.out' },
+          ),
       })
-      tl.from('.ph-fade', { y: 26, opacity: 0, duration: 1.1, stagger: 0.08 }, 0.25)
-      tl.from('.ph-rule', { scaleX: 0, transformOrigin: 'left center', duration: 1.6, ease: 'expo.inOut' }, 0.2)
+      if (desk) {
+        tl.from('.ph-fade', { y: 26, opacity: 0, duration: 1.1, stagger: 0.08 }, 0.25)
+        tl.from('.ph-rule', { scaleX: 0, transformOrigin: 'left center', duration: 1.6, ease: 'expo.inOut' }, 0.2)
+      } else {
+        tl.from('.ph-fade', { y: 12, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }, 0.1)
+      }
     },
     { scope: ref },
   )

@@ -94,7 +94,7 @@ export function EnquiryForm({ defaultInterest = 'webinar-series', compact }: { d
         </div>
         <div>
           <label htmlFor={`${uid}-email`} className={label}>Email</label>
-          <input id={`${uid}-email`} type="email" className={field} value={f.email} onChange={set('email')} autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email ? `${uid}-email-err` : undefined} />
+          <input id={`${uid}-email`} type="email" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={field} value={f.email} onChange={set('email')} autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email ? `${uid}-email-err` : undefined} />
           {errors.email && <p id={`${uid}-email-err`} className="mt-1.5 text-[13px] text-[#a3361f]">{errors.email}</p>}
         </div>
         <div>

@@ -74,15 +74,15 @@ export function Button({ to, href, onClick, type = 'button', variant = 'navy', c
     </span>
   )
 
-  if (to) return <TLink to={to} className="inline-flex rounded-full">{inner}</TLink>
+  if (to) return <TLink to={to} className="btn-press inline-flex rounded-full">{inner}</TLink>
   if (href)
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-full">
+      <a href={href} target="_blank" rel="noopener noreferrer" className="btn-press inline-flex rounded-full">
         {inner}
       </a>
     )
   return (
-    <button type={type} onClick={onClick} className="inline-flex rounded-full">
+    <button type={type} onClick={onClick} className="btn-press inline-flex rounded-full">
       {inner}
     </button>
   )

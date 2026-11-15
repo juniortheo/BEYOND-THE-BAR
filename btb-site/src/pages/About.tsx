@@ -8,7 +8,7 @@ import { Monogram } from '../components/Logo'
 import { about, site } from '../data/site'
 import { asset } from '../lib/asset'
 import { useReveal } from '../lib/useReveal'
-import { gsap, useGSAP } from '../lib/gsap'
+import { gsap, useGSAP, DESKTOP_MOTION_QUERY } from '../lib/gsap'
 
 export default function About() {
   const ref = useRef<HTMLDivElement>(null)
@@ -17,7 +17,8 @@ export default function About() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia()
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // scroll-linked parallax is desktop only
+      mm.add(DESKTOP_MOTION_QUERY, () => {
         gsap.fromTo('.ab-skyline', { yPercent: 12 }, { yPercent: -6, ease: 'none', scrollTrigger: { trigger: '.ab-where', start: 'top bottom', end: 'bottom top', scrub: true } })
         gsap.fromTo('.ab-column', { yPercent: 10 }, { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '.ab-who', start: 'top bottom', end: 'bottom top', scrub: true } })
       })

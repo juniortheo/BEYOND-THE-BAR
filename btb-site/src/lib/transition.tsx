@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { gsap, ScrollTrigger, prefersReducedMotion } from './gsap'
+import { gsap, ScrollTrigger, prefersReducedMotion, isDesktop } from './gsap'
 import { useLenis } from './smooth'
 import { MONO_SVG, MONO_VIEWBOX } from '../components/logoPaths'
 
@@ -8,7 +8,10 @@ type Go = (to: string) => void
 const TransitionContext = createContext<Go>(() => {})
 export const useGo = () => useContext(TransitionContext)
 
-/** Navy curtain with the BTB monogram that covers the screen between pages. */
+/**
+ * Navy curtain with the BTB monogram that covers the screen between pages (desktop only).
+ * On phones and tablets pages change instantly, like a native app.
+ */
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const location = useLocation()
@@ -42,7 +45,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         return
       }
       if (covering.current) return
-      if (prefersReducedMotion() || !curtain.current) {
+      if (prefersReducedMotion() || !curtain.current || !isDesktop()) {
         navigate(path)
         return
       }
