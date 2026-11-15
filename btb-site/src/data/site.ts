@@ -315,14 +315,22 @@ export type Country = 'ug' | 'rw' | 'ke'
 export const countryName: Record<Country, string> = { ug: 'Uganda', rw: 'Rwanda', ke: 'Kenya' }
 
 export const secretariat: { name: string; role: string; country: Country; photo: string }[] = [
-  { name: 'Lawrence Magumba', role: 'Team Lead, Uganda', country: 'ug', photo: 'img/team/lawrence-magumba.webp' },
+  { name: 'Ganyanna Sheba Percy', role: 'Team Lead, Uganda', country: 'ug', photo: 'img/team/ganyanna-sheba-percy.webp' },
   { name: 'Bahige David', role: 'Team Lead, Rwanda', country: 'rw', photo: 'img/team/bahige-david.webp' },
-  { name: 'Ganyanna Sheba Percy', role: 'Coordinator, Projects, Events & Conventions', country: 'ug', photo: 'img/team/ganyanna-sheba-percy.webp' },
   { name: 'Ndahiro Arnold', role: 'Coordinator, Innovation & Technology', country: 'rw', photo: 'img/team/ndahiro-arnold.webp' },
   { name: 'Bakesi Jasper', role: 'Head, Legal & Corporate Affairs', country: 'ug', photo: 'img/team/bakesi-jasper.webp' },
-  { name: 'Kabatesi Deborah', role: 'Coordinator, Communication & Public Affairs', country: 'rw', photo: 'img/team/kabatesi-deborah.webp' },
+  { name: 'Kabatesi Deborah', role: 'Coordinator, Projects & Events', country: 'rw', photo: 'img/team/kabatesi-deborah.webp' },
   { name: 'Nansubuga Dallen', role: 'Legal Officer', country: 'ug', photo: 'img/team/nansubuga-dallen.webp' },
   { name: 'Lois Mugeni', role: 'Sustainability & Governance Coordinator', country: 'rw', photo: 'img/team/lois-mugeni.webp' },
   { name: 'Arinda Gloria', role: 'Head, Practice & Administration', country: 'ug', photo: 'img/team/arinda-gloria.webp' },
-  { name: 'Ineza Melissa Julie', role: 'Manager, CSR', country: 'rw', photo: 'img/team/ineza-melissa-julie.webp' },
+  { name: 'Ineza Melissa Julie', role: 'Coordinator, Communications & Public Affairs', country: 'rw', photo: 'img/team/ineza-melissa-julie.webp' },
+]
+
+/** Published reports, opened as PDFs from the "Reports" item in the main menu. Newest first. */
+export const reports = [
+  {
+    title: 'Webinar Two: AI in Legal Practice',
+    subtitle: 'Are You Accidentally Breaching Data Protection Law?',
+    file: 'reports/BTB-Webinar-Two-Report-AI-in-Legal-Practice.pdf',
+  },
 ]

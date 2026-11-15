@@ -2,7 +2,7 @@
   Webinar Two session report — transcribed from
   "BTB WEB 2 REPORT: AI in Legal Practice — Are You Accidentally Breaching Data Protection Law?"
 */
-import type { Country } from './site'
+import { reports, type Country } from './site'
 
 export const webinarTwo = {
   slug: 'ai-in-legal-practice',
@@ -18,6 +18,7 @@ export const webinarTwo = {
   polled: 92,
   jurisdictions: 'Kenya · Rwanda · Uganda',
   youtube: 'https://www.youtube.com/watch?v=VnhLyd6OX5g',
+  reportPdf: reports[0].file,
 
   conversation: [
     'Almost every lawyer in East Africa is now using AI. Very few can say whether that use is lawful. This session put that gap to a panel drawn from three jurisdictions and moderated with a regulator’s lens, and asked a deliberately uncomfortable question: at what point does an ordinary, well-intentioned working day become a breach of data protection law?',

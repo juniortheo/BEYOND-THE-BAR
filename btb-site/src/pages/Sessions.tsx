@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { ArrowUpRight, CalendarDays, Play, Users, Video } from 'lucide-react'
 import { PageHero } from '../components/PageHero'
 import { CTABand } from '../components/CTABand'
-import { TLink } from '../components/TLink'
 import { Eyebrow } from '../components/ui/Eyebrow'
 import { Pattern } from '../components/ui/Pattern'
 import { Icon } from '../components/ui/Icon'
@@ -34,8 +33,10 @@ export default function Sessions() {
       <section className="py-16 md:py-24" aria-labelledby="latest-h">
         <div className="wrap">
           <Eyebrow data-reveal>Latest session</Eyebrow>
-          <TLink
-            to="/sessions/ai-in-legal-practice"
+          <a
+            href={asset(webinarTwo.reportPdf)}
+            target="_blank"
+            rel="noopener noreferrer"
             data-reveal
             className="group relative mt-6 grid overflow-hidden rounded-[32px] bg-navy text-ivory lg:grid-cols-[1.15fr_0.85fr]"
           >
@@ -95,7 +96,7 @@ export default function Sessions() {
                 <p className="pb-1 text-[14px] leading-snug text-ivory/70">of polled attendees already use AI in their work</p>
               </div>
             </div>
-          </TLink>
+          </a>
           <div data-reveal className="mt-6 flex flex-wrap gap-3">
             <Button href={webinarTwo.youtube} variant="ghost" icon={<Play className="size-4" />}>
               Watch on the EALS YouTube channel

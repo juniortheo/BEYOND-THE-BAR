@@ -5,14 +5,19 @@ import { ChevronDown, Menu, X, ArrowUpRight } from 'lucide-react'
 import { TLink } from './TLink'
 import { LogoLockup } from './Logo'
 import { Button } from './ui/Button'
-import { programmes, site } from '../data/site'
+import { programmes, reports, site } from '../data/site'
+import { asset } from '../lib/asset'
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from '../lib/gsap'
 import { useLenis } from '../lib/smooth'
 
-const links = [
+type NavLink = { to: string; label: string; mega?: boolean; file?: string }
+
+// "Reports" opens the latest report PDF in a new tab rather than a page on the site.
+const links: NavLink[] = [
   { to: '/about', label: 'About' },
   { to: '/programmes', label: 'Programmes', mega: true },
   { to: '/sessions', label: 'Sessions' },
+  { to: 'reports', label: 'Reports', file: reports[0].file },
   { to: '/secretariat', label: 'Secretariat' },
   { to: '/contact', label: 'Contact' },
 ]
@@ -26,8 +31,7 @@ export function Nav() {
   const [open, setOpen] = useState(false)
   const [mega, setMega] = useState(false)
 
-  const darkHero = pathname.startsWith('/sessions/')
-  const light = open || (darkHero && !scrolled)
+  const light = open
 
   // hide on scroll down, show on scroll up
   useGSAP(() => {
@@ -85,8 +89,8 @@ export function Nav() {
   // Phone status bar follows the colour at the top of the screen (desktop keeps the navy theme colour)
   useEffect(() => {
     const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"][data-mobile]')
-    if (meta) meta.content = open || (darkHero && !scrolled) ? '#082640' : '#f4efe6'
-  }, [open, darkHero, scrolled])
+    if (meta) meta.content = open ? '#082640' : '#f4efe6'
+  }, [open])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -125,6 +129,21 @@ export function Nav() {
           <ul className="hidden items-center gap-1 lg:flex">
             {links.map((l) => (
               <li key={l.to} className="relative" onMouseEnter={() => setMega(!!l.mega)}>
+                {l.file ? (
+                  <a
+                    href={asset(l.file)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={clsx(
+                      'group relative flex items-center gap-1 rounded-full px-4 py-2 text-[15px] transition-colors',
+                      light ? 'text-ivory/85 hover:text-ivory' : 'text-navy/75 hover:text-navy',
+                    )}
+                  >
+                    {l.label}
+                    <ArrowUpRight className="size-3.5 text-gold-ink transition-transform group-hover:-translate-y-px group-hover:translate-x-px" aria-hidden="true" />
+                    <span className="sr-only"> (PDF, opens in a new tab)</span>
+                  </a>
+                ) : (
                 <TLink
                   to={l.to}
                   className={clsx(
@@ -144,6 +163,7 @@ export function Nav() {
                     )}
                   />
                 </TLink>
+                )}
               </li>
             ))}
           </ul>
@@ -221,14 +241,31 @@ export function Nav() {
       >
         <div className="wrap flex min-h-full flex-col pt-[calc(var(--nav-h)+env(safe-area-inset-top,0px)+24px)] pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))]">
           <ul className="flex flex-col">
-            {[{ to: '/', label: 'Home' }, ...links].map((l) => (
+            {[{ to: '/', label: 'Home' } as NavLink, ...links].map((l) => (
               <li key={l.to} className="overflow-hidden border-b border-ivory/10">
-                <TLink to={l.to} className="flex items-baseline justify-between py-4 active:opacity-70" tabIndex={open ? 0 : -1}>
-                  <span data-m className="h-section block text-[2.4rem]">
-                    {l.label}
-                  </span>
-                  <ArrowUpRight data-m className="size-5 text-gold" />
-                </TLink>
+                {l.file ? (
+                  <a
+                    href={asset(l.file)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-baseline justify-between py-4 active:opacity-70"
+                    tabIndex={open ? 0 : -1}
+                  >
+                    <span data-m className="h-section flex items-baseline gap-3 text-[2.4rem]">
+                      {l.label}
+                      <span className="eyebrow text-gold">PDF</span>
+                    </span>
+                    <ArrowUpRight data-m className="size-5 text-gold" />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  <TLink to={l.to} className="flex items-baseline justify-between py-4 active:opacity-70" tabIndex={open ? 0 : -1}>
+                    <span data-m className="h-section block text-[2.4rem]">
+                      {l.label}
+                    </span>
+                    <ArrowUpRight data-m className="size-5 text-gold" />
+                  </TLink>
+                )}
               </li>
             ))}
           </ul>

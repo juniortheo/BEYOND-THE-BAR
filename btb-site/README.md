@@ -23,7 +23,6 @@ Deploy `dist/` to any static host. Clean URLs need a fallback to `index.html`:
 | `/programmes` | Index of all programmes |
 | `/programmes/:slug` | One page per programme: `webinar-series`, `executive-training`, `conferences`, `community-impact`, `research-hub`, `cross-border-desk`, `alumni-network` |
 | `/sessions` | Webinar & Talk Show Series and the latest session |
-| `/sessions/ai-in-legal-practice` | The full Webinar Two session report, with polls, panel and interactive checklists |
 | `/secretariat` | All ten secretariat members, filterable by country |
 | `/contact` | Email, phone numbers, LinkedIn and an enquiry form that writes an email to the secretariat |
 
@@ -38,12 +37,18 @@ Below 1024px the site switches to a lighter mobile version. Desktop (1024px and 
 
 Keep new mobile changes behind `max-lg:` classes, `(pointer: coarse)` media queries, or `isDesktop()` / `DESKTOP_MOTION_QUERY` from `src/lib/gsap.ts`, so desktop stays as it is.
 
+## Reports
+
+The **Reports** item in the main menu opens the latest report PDF in a new tab. Reports are files in `public/reports/`, listed in `reports` in `src/data/site.ts` (newest first). To publish a new one, add the PDF to that folder and put it first in the list.
+
+The old report page address (`/sessions/ai-in-legal-practice`) redirects to the PDF through `public/_redirects`.
+
 ## Editing content
 
 All words live in two files, so nobody needs to touch the layout to update text:
 
 - `src/data/site.ts` — contact details, about text, mission and vision, programmes, secretariat
-- `src/data/webinarTwo.ts` — the Webinar Two session report
+- `src/data/webinarTwo.ts` — Webinar Two details used on the home and Sessions pages
 
 Images are in `public/img/`. Brand colours and fonts are tokens at the top of `src/styles/index.css`.
 
