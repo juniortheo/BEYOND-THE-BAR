@@ -10,7 +10,7 @@ import { Eyebrow } from '../components/ui/Eyebrow'
 import { Icon } from '../components/ui/Icon'
 import { Button } from '../components/ui/Button'
 import { Pattern } from '../components/ui/Pattern'
-import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, SplitText, useGSAP, prefersReducedMotion, isDesktop } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import NotFound from './NotFound'
 
@@ -23,6 +23,19 @@ export default function ProgrammePage() {
   useGSAP(
     () => {
       if (index < 0 || prefersReducedMotion()) return
+      if (!isDesktop()) {
+        // Phones and tablets: a short entrance, no scroll-linked parallax.
+        const tl = gsap.timeline({ delay: 0.1 })
+        tl.from('.pp-hero .pv-object', { yPercent: 8, opacity: 0, duration: 0.8, ease: 'expo.out' }, 0.1)
+          .from('.pp-fade', { y: 12, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }, 0.1)
+        SplitText.create('.pp-title', {
+          type: 'lines',
+          mask: 'lines',
+          autoSplit: true,
+          onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 0.8, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
+        })
+        return
+      }
       const tl = gsap.timeline({ delay: 0.35 })
       tl.from('.pp-hero .pv-panel', { scaleY: 0.6, opacity: 0, transformOrigin: 'bottom center', duration: 1.4, ease: 'expo.out' }, 0)
         .from('.pp-hero .pv-object', { yPercent: 25, opacity: 0, duration: 1.6, ease: 'expo.out' }, 0.25)
@@ -63,7 +76,7 @@ export default function ProgrammePage() {
           </nav>
 
           <div className="mt-10 grid items-center gap-14 lg:mt-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
-            <ProgrammeVisual p={p} eager className="h-[58svh] min-h-[340px] lg:h-[74vh] lg:max-h-[700px]" numberSize="text-[12rem]" />
+            <ProgrammeVisual p={p} eager className="h-[min(58svh,460px)] min-h-[340px] lg:h-[74vh] lg:max-h-[700px]" numberSize="text-[12rem]" />
 
             <div>
               <div className="pp-fade flex flex-wrap items-center gap-3">
@@ -111,19 +124,19 @@ export default function ProgrammePage() {
               {String(p.items.length).padStart(2, '0')}
             </p>
           </div>
-          <ul data-stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul data-stagger className="mt-12 grid gap-4 max-lg:mt-8 max-lg:gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
             {p.items.map((it, i) => (
               <li
                 key={it.text}
-                className="group relative flex min-h-[170px] flex-col justify-between overflow-hidden rounded-[22px] bg-ivory p-6 ring-1 ring-line transition-colors duration-500 hover:bg-navy hover:text-ivory md:p-7"
+                className="group relative flex min-h-[170px] flex-col justify-between overflow-hidden rounded-[22px] bg-ivory p-6 ring-1 ring-line transition-colors duration-500 hover:bg-navy hover:text-ivory max-lg:grid max-lg:min-h-0 max-lg:grid-cols-[3rem_1fr] max-lg:items-center max-lg:gap-4 max-lg:rounded-2xl max-lg:p-4 md:p-7 max-lg:md:p-5"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between max-lg:contents">
                   <span className="grid size-12 place-items-center rounded-full bg-gold/25 text-gold-ink transition-colors duration-500 group-hover:bg-gold group-hover:text-navy">
                     <Icon name={it.icon} className="size-5" />
                   </span>
-                  <span className="font-display-x text-[13px] font-semibold text-taupe tabular group-hover:text-gold">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-display-x text-[13px] font-semibold text-taupe tabular group-hover:text-gold max-lg:hidden">{String(i + 1).padStart(2, '0')}</span>
                 </div>
-                <p className="mt-8 text-[1.15rem] leading-snug font-medium">{it.text}</p>
+                <p className="mt-8 text-[1.15rem] leading-snug font-medium max-lg:mt-0 max-lg:text-[1.02rem]">{it.text}</p>
               </li>
             ))}
           </ul>

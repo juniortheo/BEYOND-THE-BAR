@@ -27,6 +27,17 @@ Deploy `dist/` to any static host. Clean URLs need a fallback to `index.html`:
 | `/secretariat` | All ten secretariat members, filterable by country |
 | `/contact` | Email, phone numbers, LinkedIn and an enquiry form that writes an email to the secretariat |
 
+## Phones and tablets
+
+Below 1024px the site switches to a lighter mobile version. Desktop (1024px and up) is unaffected.
+
+- Lady Justice sits in the hero and scrolls away with the page instead of following you down it.
+- Sections take their natural height, and the programmes become a swipeable row.
+- No fade-in-on-scroll, counting numbers, parallax or page-change curtain: content is there as soon as it scrolls in, and pages open instantly.
+- Touch details: no grey tap flash, instant taps, a small press effect on buttons, the menu locks the page behind it, and the phone's status bar matches the top of the page.
+
+Keep new mobile changes behind `max-lg:` classes, `(pointer: coarse)` media queries, or `isDesktop()` / `DESKTOP_MOTION_QUERY` from `src/lib/gsap.ts`, so desktop stays as it is.
+
 ## Editing content
 
 All words live in two files, so nobody needs to touch the layout to update text:

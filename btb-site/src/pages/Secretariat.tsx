@@ -6,7 +6,7 @@ import { Flag } from '../components/ui/Flag'
 import { Pattern } from '../components/ui/Pattern'
 import { countryName, secretariat, type Country } from '../data/site'
 import { asset } from '../lib/asset'
-import { gsap, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, useGSAP, prefersReducedMotion, isDesktop } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 
 type Filter = 'all' | Country
@@ -22,7 +22,8 @@ export default function Secretariat() {
 
   useGSAP(
     () => {
-      if (prefersReducedMotion() || !grid.current) return
+      // Filtering is instant on phones and tablets
+      if (prefersReducedMotion() || !isDesktop() || !grid.current) return
       gsap.from(grid.current.children, { y: 40, opacity: 0, duration: 0.9, stagger: 0.05, ease: 'expo.out' })
     },
     { dependencies: [filter], scope: ref },
@@ -51,7 +52,7 @@ export default function Secretariat() {
                 onClick={() => setFilter(f)}
                 aria-pressed={filter === f}
                 className={clsx(
-                  'flex min-h-11 items-center gap-2 rounded-full px-5 text-[14px] font-medium ring-1 ring-inset transition-colors duration-300',
+                  'tap flex min-h-11 items-center gap-2 rounded-full px-5 text-[14px] font-medium ring-1 ring-inset transition-colors duration-300',
                   filter === f ? 'bg-navy text-ivory ring-navy' : 'text-navy ring-navy/20 hover:bg-sand',
                 )}
               >

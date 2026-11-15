@@ -4,7 +4,7 @@ import { CalendarDays, Check, Play, Quote, Video } from 'lucide-react'
 import { webinarTwo as W } from '../data/webinarTwo'
 import { site } from '../data/site'
 import { asset } from '../lib/asset'
-import { gsap, ScrollTrigger, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, ScrollTrigger, SplitText, useGSAP, prefersReducedMotion, isDesktop } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { useGo } from '../lib/transition'
 import { TLink } from '../components/TLink'
@@ -67,6 +67,17 @@ export default function SessionReport() {
         }),
       )
       if (prefersReducedMotion()) return
+      if (!isDesktop()) {
+        // Phones and tablets: title and meta only. The attendee grid and poll bars show as they are.
+        SplitText.create('.sr-title', {
+          type: 'lines',
+          mask: 'lines',
+          autoSplit: true,
+          onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 0.8, stagger: 0.06, delay: 0.1, ease: 'expo.out' }),
+        })
+        gsap.from('.sr-fade', { y: 12, opacity: 0, duration: 0.6, stagger: 0.05, delay: 0.1, ease: 'power3.out' })
+        return
+      }
       const tl = gsap.timeline({ delay: 0.35 })
       SplitText.create('.sr-title', {
         type: 'lines',
@@ -115,7 +126,7 @@ export default function SessionReport() {
                 <span className="h-[2px] w-14 bg-taupe" /> {W.theme}
               </p>
             </div>
-            <figure className="lg:col-span-4 lg:col-start-9" aria-label={`${W.polled} of ${W.attendees} attendees polled`}>
+            <figure className="max-lg:max-w-[440px] lg:col-span-4 lg:col-start-9" aria-label={`${W.polled} of ${W.attendees} attendees polled`}>
               <div className="grid grid-cols-[repeat(13,minmax(0,1fr))] gap-[5px]" aria-hidden="true">
                 {dots.map((filled, i) => (
                   <span key={i} className={clsx('sr-dot aspect-square rounded-[2px]', filled ? 'bg-gold' : 'ring-1 ring-ivory/40 ring-inset')} />
@@ -144,7 +155,7 @@ export default function SessionReport() {
       </header>
 
       {/* ================= in-page nav ================= */}
-      <nav aria-label="Report sections" className="sticky top-[env(safe-area-inset-top,0px)] z-30 border-b border-line bg-ivory/90 backdrop-blur-xl">
+      <nav aria-label="Report sections" className="sticky top-[env(safe-area-inset-top,0px)] z-30 border-b border-line bg-ivory/90 backdrop-blur-xl max-lg:bg-ivory max-lg:backdrop-blur-none">
         <ul className="wrap flex gap-1 overflow-x-auto py-3 [scrollbar-width:none]">
           {sections.map((s) => (
             <li key={s.id} className="shrink-0">

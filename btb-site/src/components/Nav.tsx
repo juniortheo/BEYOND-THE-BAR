@@ -53,33 +53,40 @@ export function Nav() {
     if (bar.current) gsap.set(bar.current, { yPercent: 0 })
   }, [pathname])
 
-  // mobile overlay animation
+  // Mobile menu (only exists below desktop): a quick reveal, and the page behind can't scroll.
   useEffect(() => {
     const el = overlay.current
     if (!el) return
+    const root = document.documentElement
     if (open) {
       lenis?.stop()
+      root.style.overflow = 'hidden'
       gsap.set(el, { display: 'flex' })
       if (prefersReducedMotion()) {
         gsap.set(el, { clipPath: 'inset(0 0 0% 0)' })
         return
       }
-      gsap
-        .timeline()
-        .fromTo(el, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.7, ease: 'expo.inOut' })
-        .from(el.querySelectorAll('[data-m]'), { yPercent: 120, opacity: 0, stagger: 0.05, duration: 0.8 }, '-=0.3')
+      gsap.fromTo(el, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.4, ease: 'expo.out', overwrite: true })
     } else {
+      root.style.overflow = ''
       lenis?.start()
       gsap.to(el, {
         clipPath: 'inset(0 0 100% 0)',
-        duration: prefersReducedMotion() ? 0 : 0.5,
-        ease: 'expo.inOut',
+        duration: prefersReducedMotion() ? 0 : 0.25,
+        ease: 'power3.out',
+        overwrite: true,
         onComplete: () => {
           gsap.set(el, { display: 'none' })
         },
       })
     }
   }, [open, lenis])
+
+  // Phone status bar follows the colour at the top of the screen (desktop keeps the navy theme colour)
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"][data-mobile]')
+    if (meta) meta.content = open || (darkHero && !scrolled) ? '#082640' : '#f4efe6'
+  }, [open, darkHero, scrolled])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -104,8 +111,10 @@ export function Nav() {
       >
         <div
           className={clsx(
-            'absolute inset-0 transition-all duration-500',
-            (scrolled || mega) && !open ? 'border-b border-navy/10 bg-ivory/85 backdrop-blur-xl' : 'border-b border-transparent',
+            'absolute inset-0 transition-all duration-500 max-lg:transition-[background-color,border-color] max-lg:duration-200',
+            (scrolled || mega) && !open
+              ? 'border-b border-navy/10 bg-ivory/85 backdrop-blur-xl max-lg:bg-ivory max-lg:backdrop-blur-none'
+              : 'border-b border-transparent',
           )}
         />
         <nav className="wrap relative flex h-[var(--nav-h)] items-center justify-between gap-6" aria-label="Main">
@@ -149,7 +158,7 @@ export function Nav() {
               type="button"
               onClick={() => setOpen((o) => !o)}
               className={clsx(
-                'flex min-h-11 items-center gap-2 rounded-full px-4 text-[14px] font-medium ring-1 ring-inset lg:hidden',
+                'tap flex min-h-11 items-center gap-2 rounded-full px-4 text-[14px] font-medium ring-1 ring-inset lg:hidden',
                 open ? 'text-ivory ring-ivory/30' : light ? 'text-ivory ring-ivory/30' : 'text-navy ring-navy/20',
               )}
               aria-expanded={open}
@@ -206,15 +215,15 @@ export function Nav() {
       <div
         id="mobile-menu"
         ref={overlay}
-        className="fixed inset-0 z-40 hidden flex-col overflow-y-auto bg-navy text-ivory"
+        className="fixed inset-0 z-40 hidden flex-col overflow-y-auto overscroll-contain bg-navy text-ivory"
         style={{ clipPath: 'inset(0 0 100% 0)' }}
         aria-hidden={!open}
       >
-        <div className="wrap flex min-h-full flex-col pt-[calc(var(--nav-h)+env(safe-area-inset-top,0px)+24px)] pb-10">
+        <div className="wrap flex min-h-full flex-col pt-[calc(var(--nav-h)+env(safe-area-inset-top,0px)+24px)] pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))]">
           <ul className="flex flex-col">
             {[{ to: '/', label: 'Home' }, ...links].map((l) => (
               <li key={l.to} className="overflow-hidden border-b border-ivory/10">
-                <TLink to={l.to} className="flex items-baseline justify-between py-4" tabIndex={open ? 0 : -1}>
+                <TLink to={l.to} className="flex items-baseline justify-between py-4 active:opacity-70" tabIndex={open ? 0 : -1}>
                   <span data-m className="h-section block text-[2.4rem]">
                     {l.label}
                   </span>
@@ -227,7 +236,7 @@ export function Nav() {
           <ul className="mt-3 grid gap-1">
             {programmes.map((p) => (
               <li key={p.slug} className="overflow-hidden">
-                <TLink to={`/programmes/${p.slug}`} className="flex gap-3 py-1.5 text-ivory/80" tabIndex={open ? 0 : -1}>
+                <TLink to={`/programmes/${p.slug}`} className="flex gap-3 py-2 text-ivory/80 active:opacity-70" tabIndex={open ? 0 : -1}>
                   <span data-m className="font-display-x w-6 text-sm text-gold tabular">
                     {p.number}
                   </span>
