@@ -13,6 +13,8 @@ export const site = {
   email: 'beyondthebar.a@gmail.com',
   linkedinLabel: 'Beyond the Bar (BTB)',
   linkedinUrl: 'https://www.linkedin.com/search/results/all/?keywords=Beyond%20the%20Bar%20(BTB)',
+  xLabel: 'Beyond the Bar (BTB)',
+  xUrl: 'https://x.com/beyondthebarbtb?s=11&t=NiYSD2rZ-thMkoxXp847WQ',
   regions: 'Uganda · Rwanda · East Africa',
   offices: [
     {
@@ -104,7 +106,7 @@ export const programmes: Programme[] = [
     short: 'Webinar & Talk Show Series',
     lede: 'Monthly conversations with leading experts on where law, business and technology are heading.',
     intro: [
-      'BTB hosts monthly webinars, panel discussions, podcasts, and thought-leadership conversations featuring leading experts from law, business, technology, governance, finance, and development sectors.',
+      'BTB hosts monthly webinars, panel discussions and thought-leadership conversations featuring leading experts from law, business, technology, governance, finance, and development sectors.',
       'These engagements provide participants with practical insights on emerging trends, regulatory developments, and regional opportunities while promoting continuous learning and professional networking.',
     ],
     listLabel: 'Key themes include',
@@ -121,7 +123,7 @@ export const programmes: Programme[] = [
     closing:
       'The series provides a platform for meaningful conversations on emerging legal trends, evolving practice areas, technology driven disruption, regional integration, and the future of legal service delivery in Africa and beyond. Through this initiative, both firms aim to educate, engage, and build visibility while fostering stronger professional networks across the region.',
     facts: [
-      { value: 'Monthly', label: 'Webinars, panels and podcasts' },
+      { value: 'Monthly', label: 'Webinars and panel discussions' },
       { value: '8', label: 'Key themes' },
       { value: '109', label: 'Attendees at Webinar Two' },
       { value: '3', label: 'Countries on the Webinar Two panel' },
@@ -242,7 +244,6 @@ export const programmes: Programme[] = [
     facts: [
       { value: '5', label: 'Functions of the Hub' },
       { value: '4', label: 'Publication types: briefs, reports, toolkits, guides' },
-      { value: '16', label: 'Practical checks in the Webinar Two report' },
     ],
     visual: {
       kind: 'cutout',

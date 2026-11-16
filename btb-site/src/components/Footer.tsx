@@ -94,6 +94,11 @@ export function Footer() {
                     LinkedIn · {site.linkedinLabel} <ArrowUpRight className="size-3.5" />
                   </a>
                 </li>
+                <li>
+                  <a href={site.xUrl} target="_blank" rel="noopener noreferrer" className="link-u inline-flex items-center gap-1 hover:text-ivory">
+                    X · {site.xLabel} <ArrowUpRight className="size-3.5" />
+                  </a>
+                </li>
               </ul>
             </div>
           </nav>

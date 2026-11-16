@@ -15,9 +15,15 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
     () => {
       if (!scope.current) return
       const root = scope.current
+      // Each useReveal owns only its own elements. A nested component with its own useReveal
+      // (like CTABand inside a page) marks its root, and the outer one skips everything inside it.
+      // Without this, both animate the same element and it can end up stuck invisible.
+      root.setAttribute('data-reveal-root', '')
+      const own = (sel: string) =>
+        gsap.utils.toArray<HTMLElement>(sel, root).filter((el) => el.parentElement?.closest('[data-reveal-root]') === root)
       const mm = gsap.matchMedia()
       mm.add(DESKTOP_MOTION_QUERY, () => {
-        gsap.utils.toArray<HTMLElement>('[data-reveal]', root).forEach((el) => {
+        own('[data-reveal]').forEach((el) => {
           gsap.from(el, {
             y: 36,
             opacity: 0,
@@ -27,7 +33,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
           })
         })
 
-        gsap.utils.toArray<HTMLElement>('[data-stagger]', root).forEach((group) => {
+        own('[data-stagger]').forEach((group) => {
           gsap.from(group.children, {
             y: 30,
             opacity: 0,
@@ -37,7 +43,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>, deps: unknown[] 
           })
         })
 
-        gsap.utils.toArray<HTMLElement>('[data-split]', root).forEach((el) => {
+        own('[data-split]').forEach((el) => {
           SplitText.create(el, {
             type: 'lines',
             mask: 'lines',
