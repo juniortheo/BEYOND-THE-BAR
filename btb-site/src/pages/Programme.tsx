@@ -10,7 +10,7 @@ import { Eyebrow } from '../components/ui/Eyebrow'
 import { Icon } from '../components/ui/Icon'
 import { Button } from '../components/ui/Button'
 import { Pattern } from '../components/ui/Pattern'
-import { gsap, SplitText, useGSAP, prefersReducedMotion, isDesktop } from '../lib/gsap'
+import { gsap, SplitText, useGSAP, prefersReducedMotion, isDesktop, LINE_FROM } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import NotFound from './NotFound'
 
@@ -31,8 +31,9 @@ export default function ProgrammePage() {
         SplitText.create('.pp-title', {
           type: 'lines',
           mask: 'lines',
+            linesClass: 'split-line',
           autoSplit: true,
-          onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 0.8, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
+          onSplit: (self) => gsap.from(self.lines, { yPercent: LINE_FROM, duration: 0.8, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
         })
         return
       }
@@ -43,8 +44,9 @@ export default function ProgrammePage() {
       SplitText.create('.pp-title', {
         type: 'lines',
         mask: 'lines',
+            linesClass: 'split-line',
         autoSplit: true,
-        onSplit: (self) => gsap.from(self.lines, { yPercent: 115, duration: 1.3, stagger: 0.08, delay: 0.55 }),
+        onSplit: (self) => gsap.from(self.lines, { yPercent: LINE_FROM, duration: 1.3, stagger: 0.08, delay: 0.55 }),
       })
       gsap.fromTo('.pp-hero .pv-object', { y: 0 }, { y: -60, ease: 'none', scrollTrigger: { trigger: '.pp-hero', start: 'top top', end: 'bottom top', scrub: true } })
     },
@@ -164,7 +166,7 @@ export default function ProgrammePage() {
         {(p.slug === 'webinar-series' || p.slug === 'research-hub' || p.slug === 'executive-training') && (
           <div className="wrap mt-16">
             <TLink
-              to="/sessions/ai-in-legal-practice"
+              to="/reports"
               data-reveal
               className="group relative grid gap-6 overflow-hidden rounded-[28px] bg-navy p-8 text-ivory md:grid-cols-[1fr_auto] md:items-center md:p-12"
             >

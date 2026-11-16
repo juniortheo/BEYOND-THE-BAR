@@ -1,13 +1,14 @@
 import { useRef } from 'react'
 import { ArrowUpRight, CalendarDays, Play, Users, Video } from 'lucide-react'
 import { PageHero } from '../components/PageHero'
-import { CTABand } from '../components/CTABand'
+import { SessionRegistrationForm } from '../components/SessionRegistrationForm'
 import { TLink } from '../components/TLink'
+import { CTABand } from '../components/CTABand'
 import { Eyebrow } from '../components/ui/Eyebrow'
 import { Pattern } from '../components/ui/Pattern'
 import { Icon } from '../components/ui/Icon'
 import { Button } from '../components/ui/Button'
-import { programmes, site } from '../data/site'
+import { programmes } from '../data/site'
 import { webinarTwo } from '../data/webinarTwo'
 import { asset } from '../lib/asset'
 import { useReveal } from '../lib/useReveal'
@@ -35,7 +36,7 @@ export default function Sessions() {
         <div className="wrap">
           <Eyebrow data-reveal>Latest session</Eyebrow>
           <TLink
-            to="/sessions/ai-in-legal-practice"
+            to="/reports"
             data-reveal
             className="group relative mt-6 grid overflow-hidden rounded-[32px] bg-navy text-ivory lg:grid-cols-[1.15fr_0.85fr]"
           >
@@ -137,8 +138,8 @@ export default function Sessions() {
           <ol data-stagger className="mt-14 grid gap-5 md:grid-cols-3">
             {[
               { k: 'Before', t: 'A panel drawn from across the region', d: 'Experts from law, business, technology, governance, finance and development, with a moderator who presses for the practical breaking point.' },
-              { k: 'During', t: 'Live, with polls', d: 'Webinar Two ran on Zoom, was livestreamed on the East Africa Law Society YouTube channel, and used two live polls to show where the room stood.' },
-              { k: 'After', t: 'A report you can use', d: 'The Webinar Two report recorded the arguments, the poll results and two checklists for what to do on Monday, so the learning outlasts the hour.' },
+              { k: 'During', t: 'Live, with polls', d: 'Each session runs live on Zoom, is livestreamed for a wider audience, and uses live polls to show where the room stands.' },
+              { k: 'After', t: 'A report you can use', d: 'After each session, BTB publishes a report recording the key arguments, the poll results and practical checklists for what to do next, so the learning outlasts the hour.' },
             ].map((s) => (
               <li key={s.k} className="rounded-[24px] bg-paper p-8 ring-1 ring-line">
                 <p className="eyebrow text-gold-ink">{s.k}</p>
@@ -157,9 +158,10 @@ export default function Sessions() {
             Get the next invitation <span className="accent text-gold">in your inbox.</span>
           </>
         }
-        text={`Sessions are announced monthly. Write to ${site.email} and ask to join the invitation list.`}
-        primary={{ to: '/contact?interest=webinar-series', label: 'Ask for an invitation' }}
+        text="Sessions are announced monthly. Leave your details and we'll send the invitation for the next session straight to your inbox."
+        primary={null}
         secondary={{ to: '/programmes/webinar-series', label: 'About the series' }}
+        aside={<SessionRegistrationForm />}
       />
     </div>
   )

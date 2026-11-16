@@ -39,7 +39,7 @@ export default function Secretariat() {
             The people who run <span className="accent text-gold-ink">Beyond the Bar.</span>
           </>
         }
-        intro={<p>Ten people across Uganda and Rwanda lead BTB's projects and events, innovation and technology, legal and corporate affairs, communication, sustainability and community impact.</p>}
+        intro={<p>Nine people across Uganda and Rwanda lead BTB's projects and events, innovation and technology, legal and corporate affairs, communications, sustainability and governance.</p>}
       />
 
       <section className="py-14 md:py-20" aria-label="Secretariat members">

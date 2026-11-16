@@ -183,6 +183,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 }
 
+/* SplitText line masks: GSAP clips each line to its own box, which cuts off descenders
+   (g, p, y), tall capitals and italic overhang at tight line heights. Clip to a slightly
+   larger area instead; the box itself is untouched, so layout and line spacing don't move. */
+.split-line-mask {
+  overflow: visible !important;
+  clip-path: inset(-0.2em -0.15em -0.3em -0.15em);
+}
+
 /* marquee */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .marquee-track { animation: marquee var(--marquee-duration, 40s) linear infinite; }

@@ -9,7 +9,7 @@ import About from './pages/About'
 import Programmes from './pages/Programmes'
 import ProgrammePage from './pages/Programme'
 import Sessions from './pages/Sessions'
-import SessionReport from './pages/SessionReport'
+import Reports from './pages/Reports'
 import Secretariat from './pages/Secretariat'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
@@ -19,7 +19,7 @@ const titles: Record<string, string> = {
   '/about': 'About | Beyond the Bar',
   '/programmes': 'Programmes | Beyond the Bar',
   '/sessions': 'Sessions | Beyond the Bar',
-  '/sessions/ai-in-legal-practice': 'AI in Legal Practice | Webinar Two | Beyond the Bar',
+  '/reports': 'Reports | Beyond the Bar',
   '/secretariat': 'Secretariat | Beyond the Bar',
   '/contact': 'Contact | Beyond the Bar',
 }
@@ -56,7 +56,7 @@ export default function App() {
             <Route path="/programmes" element={<Programmes />} />
             <Route path="/programmes/:slug" element={<ProgrammePage />} />
             <Route path="/sessions" element={<Sessions />} />
-            <Route path="/sessions/ai-in-legal-practice" element={<SessionReport />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path="/secretariat" element={<Secretariat />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />

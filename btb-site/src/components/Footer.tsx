@@ -11,7 +11,7 @@ const explore = [
   { to: '/about', label: 'About BTB' },
   { to: '/programmes', label: 'Programmes' },
   { to: '/sessions', label: 'Sessions' },
-  { to: '/sessions/ai-in-legal-practice', label: 'Webinar Two report' },
+  { to: '/reports', label: 'Reports' },
   { to: '/secretariat', label: 'Secretariat' },
   { to: '/contact', label: 'Contact' },
 ]
@@ -31,9 +31,6 @@ export function Footer() {
                 <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-gold">Re-thinking legal practice</span>
               </div>
             </div>
-            <p className="mt-8 max-w-md font-serif text-lg leading-relaxed text-ivory/75">
-              A regional legal, business and professional development platform for East Africa and beyond.
-            </p>
             <div className="mt-10">
               <p className="eyebrow text-gold">An initiative by</p>
               <div className="mt-4 flex flex-wrap gap-3">
@@ -95,6 +92,11 @@ export function Footer() {
                 <li>
                   <a href={site.linkedinUrl} target="_blank" rel="noopener noreferrer" className="link-u inline-flex items-center gap-1 hover:text-ivory">
                     LinkedIn · {site.linkedinLabel} <ArrowUpRight className="size-3.5" />
+                  </a>
+                </li>
+                <li>
+                  <a href={site.xUrl} target="_blank" rel="noopener noreferrer" className="link-u inline-flex items-center gap-1 hover:text-ivory">
+                    X · {site.xLabel} <ArrowUpRight className="size-3.5" />
                   </a>
                 </li>
               </ul>

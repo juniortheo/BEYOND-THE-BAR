@@ -23,7 +23,7 @@ Deploy `dist/` to any static host. Clean URLs need a fallback to `index.html`:
 | `/programmes` | Index of all programmes |
 | `/programmes/:slug` | One page per programme: `webinar-series`, `executive-training`, `conferences`, `community-impact`, `research-hub`, `cross-border-desk`, `alumni-network` |
 | `/sessions` | Webinar & Talk Show Series and the latest session |
-| `/sessions/ai-in-legal-practice` | The full Webinar Two session report, with polls, panel and interactive checklists |
+| `/reports` | All reports, each with a Download PDF button |
 | `/secretariat` | All ten secretariat members, filterable by country |
 | `/contact` | Email, phone numbers, LinkedIn and an enquiry form that writes an email to the secretariat |
 
@@ -38,12 +38,23 @@ Below 1024px the site switches to a lighter mobile version. Desktop (1024px and 
 
 Keep new mobile changes behind `max-lg:` classes, `(pointer: coarse)` media queries, or `isDesktop()` / `DESKTOP_MOTION_QUERY` from `src/lib/gsap.ts`, so desktop stays as it is.
 
+## Reports
+
+`/reports` is the central Reports page, in the main menu on desktop and mobile. Each report is a card with its cover, a short description and a **Download PDF** button.
+
+To publish a new report:
+
+1. Add the PDF to `public/downloads/` and a cover image (page 1 of the PDF works well) to `public/img/`.
+2. Add an entry at the top of `reports` in `src/data/site.ts` with its title, description, file, page count and size.
+
+The old report page address (`/sessions/ai-in-legal-practice`) redirects to `/reports` through `public/_redirects`.
+
 ## Editing content
 
 All words live in two files, so nobody needs to touch the layout to update text:
 
 - `src/data/site.ts` — contact details, about text, mission and vision, programmes, secretariat
-- `src/data/webinarTwo.ts` — the Webinar Two session report
+- `src/data/webinarTwo.ts` — Webinar Two details used on the home and Sessions pages
 
 Images are in `public/img/`. Brand colours and fonts are tokens at the top of `src/styles/index.css`.
 

@@ -2,14 +2,13 @@ import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { ArrowRight, ArrowUpRight, GraduationCap, Globe, Landmark, Mic, Play } from 'lucide-react'
 import { asset } from '../lib/asset'
-import { gsap, ScrollTrigger, SplitText, useGSAP, queueRefresh } from '../lib/gsap'
+import { gsap, ScrollTrigger, SplitText, useGSAP, queueRefresh, LINE_FROM } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { about, programmes, secretariat, site } from '../data/site'
 import { webinarTwo } from '../data/webinarTwo'
 import { Button } from '../components/ui/Button'
 import { Eyebrow } from '../components/ui/Eyebrow'
 import { Pattern } from '../components/ui/Pattern'
-import { Counter } from '../components/ui/Counter'
 import { Marquee } from '../components/ui/Marquee'
 import { Flag } from '../components/ui/Flag'
 import { Icon } from '../components/ui/Icon'
@@ -60,8 +59,9 @@ export default function Home() {
             SplitText.create('.j-h1', {
               type: 'lines',
               mask: 'lines',
+            linesClass: 'split-line',
               autoSplit: true,
-              onSplit: (self) => gsap.from(self.lines, { yPercent: 110, duration: 0.9, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
+              onSplit: (self) => gsap.from(self.lines, { yPercent: LINE_FROM, duration: 0.9, stagger: 0.06, delay: 0.15, ease: 'expo.out' }),
             })
             intro.from('.j-fade', { y: 12, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }, 0.3)
             return
@@ -71,8 +71,6 @@ export default function Home() {
           const intro = gsap.timeline({ delay: 0.2 })
           intro
             .from('.j-statue-inner', { yPercent: 30, opacity: 0, duration: 2, ease: 'expo.out' }, 0.1)
-            .from('.j-bar', { scaleX: 0, duration: 1.6, ease: 'expo.inOut' }, 0)
-            .from('.j-bar-label', { opacity: 0, y: 8, duration: 0.8, stagger: 0.1 }, 0.9)
             .from('.j-glow', { opacity: 0, scale: 0.6, duration: 2.2 }, 0.2)
           SplitText.create('.j-giant', {
             type: 'chars',
@@ -81,8 +79,9 @@ export default function Home() {
           SplitText.create('.j-h1', {
             type: 'lines',
             mask: 'lines',
+            linesClass: 'split-line',
             autoSplit: true,
-            onSplit: (self) => gsap.from(self.lines, { yPercent: 115, duration: 1.3, stagger: 0.1, delay: 0.55 }),
+            onSplit: (self) => gsap.from(self.lines, { yPercent: LINE_FROM, duration: 1.3, stagger: 0.1, delay: 0.55 }),
           })
           intro.from('.j-fade', { y: 24, opacity: 0, duration: 1.1, stagger: 0.08 }, 0.7)
 
@@ -92,11 +91,10 @@ export default function Home() {
           type S = gsap.TweenVars
           const states: S[] = [
             { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 },
-            { x: () => -W() * 0.25, y: () => H() * 0.02, scale: 0.92, rotation: -3, opacity: 1 },
             { x: () => W() * 0.25, y: () => H() * 0.02, scale: 0.88, rotation: 3, opacity: 1 },
             { x: 0, y: () => -H() * 0.05, scale: 0.7, rotation: 0, opacity: 1 },
           ]
-          ;['.j-who', '.j-mission', '.j-ring'].forEach((sel, i) => {
+          ;['.j-mission', '.j-ring'].forEach((sel, i) => {
             gsap.fromTo('.j-statue', states[i], {
               ...states[i + 1],
               ease: 'none',
@@ -108,17 +106,12 @@ export default function Home() {
             yPercent: -40,
             opacity: 0,
             ease: 'none',
-            scrollTrigger: { trigger: '.j-who', start: 'top bottom', end: 'top 35%', scrub: true },
-          })
-          gsap.to('.j-bar-wrap', {
-            opacity: 0,
-            ease: 'none',
-            scrollTrigger: { trigger: '.j-who', start: 'top 85%', end: 'top 40%', scrub: true },
+            scrollTrigger: { trigger: '.j-mission', start: 'top bottom', end: 'top 35%', scrub: true },
           })
           gsap.fromTo(
             '.j-glow',
             { opacity: 1 },
-            { opacity: 0.45, ease: 'none', scrollTrigger: { trigger: '.j-who', start: 'top bottom', end: 'top top', scrub: true } },
+            { opacity: 0.45, ease: 'none', scrollTrigger: { trigger: '.j-mission', start: 'top bottom', end: 'top top', scrub: true } },
           )
           gsap.from('.j-chip', {
             opacity: 0,
@@ -169,13 +162,6 @@ export default function Home() {
           scrollTrigger: { trigger: pin, start: 'top top', end: () => `+=${distance()}`, scrub: true },
         })
       })
-
-      /* ---------------- poll bars ---------------- */
-      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-        gsap.utils.toArray<HTMLElement>('.poll-bar').forEach((bar) => {
-          gsap.from(bar, { scaleX: 0, transformOrigin: 'left center', duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: bar, start: 'top 90%', once: true } })
-        })
-      })
     },
     { scope: root },
   )
@@ -207,14 +193,6 @@ export default function Home() {
               />
             </div>
           </div>
-          {/* "the bar" */}
-          <div className="j-bar-wrap absolute inset-x-0 bottom-[34%] lg:bottom-[21%]">
-            <div className="j-bar mx-auto h-[2px] w-full origin-center bg-gradient-to-r from-transparent via-gold to-transparent" />
-            <div className="wrap mt-3 hidden justify-between lg:[@media(min-height:820px)]:flex">
-              <span className="j-bar-label eyebrow text-gold-ink">The bar</span>
-              <span className="j-bar-label eyebrow text-gold-ink">& beyond</span>
-            </div>
-          </div>
         </div>
 
         {/* ---- 1. hero ---- */}
@@ -228,16 +206,6 @@ export default function Home() {
               <p className="j-fade mt-6 max-w-[36ch] font-serif text-[1.1rem] leading-relaxed text-navy/80">
                 A regional platform bridging legal practice, business innovation, leadership and regional integration.<span className="hidden sm:inline"> Founded by Cavenbridge Advocates and Trust Law Chambers.</span>
               </p>
-              <div className="j-fade mt-8 flex flex-wrap gap-2.5">
-                <Button to="/programmes" className="pl-5 text-[14px]">
-                  Explore programmes
-                </Button>
-                <span className="hidden sm:inline-flex">
-                  <Button to="/sessions/ai-in-legal-practice" variant="ghost" className="pl-5 text-[14px]">
-                    Latest session
-                  </Button>
-                </span>
-              </div>
             </div>
 
             {/* quick programme switcher (desktop) */}
@@ -285,7 +253,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Lady Justice in the page flow on phones and tablets, standing on "the bar" */}
+          {/* Lady Justice in the page flow on phones and tablets */}
           <div className="wrap mt-6 lg:hidden" aria-hidden="true">
             <div className="relative mx-auto h-[min(54svh,520px)]" style={{ aspectRatio: '480 / 984' }}>
               <div className="absolute top-[8%] left-1/2 aspect-square w-[170%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(207,160,113,0.4)_0%,rgba(207,160,113,0.12)_38%,transparent_66%)]" />
@@ -296,49 +264,6 @@ export default function Home() {
                 height={1968}
                 className="j-statue-m relative h-full w-full object-contain drop-shadow-[0_28px_32px_rgba(8,38,64,0.24)]"
               />
-            </div>
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-gold to-transparent" />
-          </div>
-
-          {/* bottom row */}
-          <div className="wrap mt-10 grid gap-8 lg:mt-0 lg:grid-cols-12 lg:items-end">
-            <div className="j-fade lg:col-span-5">
-              <p className="eyebrow text-taupe-ink">An initiative by</p>
-              <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">
-                {site.founders.map((f) => (
-                  <img key={f.name} src={asset(f.logo)} alt={f.name} className="h-10 w-auto opacity-90 mix-blend-multiply" />
-                ))}
-              </div>
-            </div>
-            <div className="j-fade grid grid-cols-2 gap-6 max-lg:border-t max-lg:border-line max-lg:pt-6 lg:col-span-4 lg:col-start-9">
-              <div>
-                <p className="text-[13px] leading-tight text-taupe-ink">Attendees at<br />Webinar Two</p>
-                <p className="font-display-x mt-1 text-[2.6rem] leading-none font-semibold tabular">{webinarTwo.attendees}</p>
-              </div>
-              <div>
-                <p className="text-[13px] leading-tight text-taupe-ink">Polled attendees<br />already using AI</p>
-                <p className="font-display-x mt-1 text-[2.6rem] leading-none font-semibold tabular">{webinarTwo.polls.one.yes.pct}%</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ---- 2. who we are ---- */}
-        <section className="j-who relative z-10 flex items-center py-16 max-lg:border-t max-lg:border-line lg:min-h-[100svh] lg:py-24">
-          <div className="wrap grid lg:grid-cols-12">
-            <div className="lg:col-span-6 lg:col-start-7">
-              <Eyebrow data-reveal>Who we are</Eyebrow>
-              <h2 data-split className="h-section mt-6 text-[clamp(2.2rem,4.4vw,4rem)]">
-                Where legal practice meets <span className="accent text-gold-ink">business, leadership</span> and regional integration.
-              </h2>
-              <div data-reveal className="prose-btb mt-8 max-w-[58ch]">
-                <p>{about.whoWeAre[1]}</p>
-              </div>
-              <div data-reveal className="mt-8">
-                <Button to="/about" variant="ghost">
-                  Our story
-                </Button>
-              </div>
             </div>
           </div>
         </section>
@@ -465,7 +390,7 @@ export default function Home() {
       {/* ============================ LATEST SESSION ============================ */}
       <section className="on-navy relative z-10 overflow-hidden bg-navy text-ivory" aria-labelledby="sess-h">
         <Pattern className="top-0 left-0 h-full w-[50%] text-ivory opacity-[0.035]" size={420} />
-        <div className="wrap relative grid gap-16 py-24 md:py-32 lg:grid-cols-12">
+        <div className="wrap relative grid gap-8 py-24 md:py-32 lg:grid-cols-12 lg:items-center lg:gap-16">
           <div className="lg:col-span-6">
             <Eyebrow light data-reveal>
               {webinarTwo.series} · {webinarTwo.date}
@@ -479,18 +404,21 @@ export default function Home() {
             <p data-reveal className="mt-8 flex items-center gap-4 font-serif text-xl italic text-ivory/85">
               <span className="h-px w-12 bg-ivory/40" /> {webinarTwo.theme}
             </p>
-            <p data-reveal className="mt-6 max-w-[56ch] font-serif text-lg leading-relaxed text-ivory/75">
+          </div>
+
+          <div className="lg:col-span-5 lg:col-start-8">
+            <p data-reveal className="max-w-[56ch] font-serif text-lg leading-relaxed text-ivory/75">
               {webinarTwo.conversation[1].split('. ').slice(0, 3).join('. ')}.
             </p>
             <div data-reveal className="mt-10 flex flex-wrap gap-3">
-              <Button to="/sessions/ai-in-legal-practice" variant="gold">
+              <Button to="/reports" variant="gold">
                 Read the session report
               </Button>
               <Button href={webinarTwo.youtube} variant="ghost-light" icon={<Play className="size-4" />}>
                 Watch on YouTube
               </Button>
             </div>
-            <ul data-stagger className="mt-12 flex flex-wrap gap-3">
+            <ul data-stagger className="mt-10 flex flex-wrap gap-3">
               {webinarTwo.room.slice(0, 4).map((r) => (
                 <li key={r.name} className="flex items-center gap-3 rounded-full bg-ivory/[0.06] py-1.5 pr-4 pl-1.5 ring-1 ring-ivory/10">
                   <img src={asset(r.photo)} alt="" className="size-9 rounded-full object-cover" loading="lazy" />
@@ -504,35 +432,6 @@ export default function Home() {
               ))}
             </ul>
           </div>
-
-          <div className="lg:col-span-5 lg:col-start-8">
-            <div data-reveal className="rounded-[28px] bg-navy-2 p-7 ring-1 ring-ivory/10 md:p-10">
-              <p className="eyebrow text-gold">What the room told us</p>
-              <p className="mt-6 text-[15px] text-ivory/70">{webinarTwo.polls.one.question}</p>
-              <p className="font-display-x mt-2 text-[clamp(4.5rem,9vw,7.5rem)] leading-none font-bold text-ivory tabular">
-                <Counter value={88} suffix="%" />
-              </p>
-              <div className="mt-5 flex h-12 overflow-hidden rounded-lg">
-                <div className="poll-bar flex items-center bg-gold px-3 text-[12px] font-semibold text-navy" style={{ width: '88%' }}>
-                  YES · 81 OF 92
-                </div>
-                <div className="flex flex-1 items-center justify-center bg-navy-3 text-[12px] font-semibold text-ivory/80">12%</div>
-              </div>
-              <p className="mt-10 text-[15px] text-ivory/70">Aware of the issues and already implementing the recommendations</p>
-              <div className="mt-4 space-y-3">
-                {webinarTwo.polls.two.answers.map((a) => (
-                  <div key={a.label} className="grid grid-cols-[3.2rem_1fr] items-center gap-3">
-                    <span className={clsx('font-display-x text-lg font-semibold tabular', a.highlight ? 'text-gold' : 'text-ivory')}>{a.pct}%</span>
-                    <div className="h-3 overflow-hidden rounded-full bg-navy-3">
-                      <div className={clsx('poll-bar h-full rounded-full', a.highlight ? 'bg-gold' : 'bg-taupe')} style={{ width: `${a.pct}%` }} />
-                    </div>
-                    <span className="col-start-2 -mt-1 text-[13px] text-ivory/60">{a.label}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-8 border-t border-ivory/10 pt-5 font-serif text-[15px] italic leading-relaxed text-ivory/75">{webinarTwo.polls.reading}</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -542,10 +441,10 @@ export default function Home() {
           <div className="lg:col-span-5">
             <Eyebrow data-reveal>The secretariat</Eyebrow>
             <h2 id="team-h" data-split className="h-section mt-6 text-[clamp(2.2rem,4.4vw,4rem)]">
-              Ten people, <span className="accent text-gold-ink">two countries,</span> one platform.
+              Nine people, <span className="accent text-gold-ink">two countries,</span> one platform.
             </h2>
             <p data-reveal className="mt-6 max-w-[44ch] font-serif text-lg leading-relaxed text-navy/75">
-              BTB is run by a secretariat split between Uganda and Rwanda, covering projects and events, innovation and technology, legal and corporate affairs, communication, sustainability and CSR.
+              BTB is run by a secretariat split between Uganda and Rwanda, covering projects and events, innovation and technology, legal and corporate affairs, communications, sustainability and governance.
             </p>
             <div data-reveal className="mt-8">
               <Button to="/secretariat" variant="navy">
@@ -553,9 +452,9 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          <ul data-stagger className="grid grid-cols-5 gap-2 sm:gap-3 lg:col-span-7">
+          <ul data-stagger className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:col-span-7">
             {secretariat.map((m) => (
-              <li key={m.name} className="group relative">
+              <li key={m.name} className="group relative w-[calc((100%-2rem)/5)] sm:w-[calc((100%-3rem)/5)]">
                 <TLink to="/secretariat" className="block">
                   <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-gradient-to-b from-navy-3 to-navy">
                     <Pattern className="inset-0 text-ivory opacity-[0.05]" size={200} />
@@ -575,32 +474,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============================ PARTNERS ============================ */}
-      <section className="relative z-10 border-t border-navy/10 bg-paper py-16" aria-label="Founders and partners">
-        <div className="wrap grid gap-10 md:grid-cols-2 md:items-center">
-          <div data-reveal>
-            <p className="eyebrow text-taupe-ink">An initiative by</p>
-            <div className="mt-5 flex flex-wrap items-center gap-10">
-              {site.founders.map((f) => (
-                <div key={f.name} className="flex items-center gap-3">
-                  <img src={asset(f.logo)} alt={f.name} className="h-14 w-auto mix-blend-multiply" loading="lazy" />
-                  <span className="flex items-center gap-1.5 text-[13px] text-taupe-ink">
-                    <Flag code={f.code} className="h-3 w-[18px]" /> {f.country}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div data-reveal className="md:justify-self-end">
-            <p className="eyebrow text-taupe-ink">Webinar Two convened with</p>
-            <div className="mt-5 flex flex-wrap items-center gap-4">
-              {site.sessionPartners.map((s) => (
-                <img key={s.name} src={asset(s.logo)} alt={s.name} className="h-14 w-auto rounded-lg ring-1 ring-navy/10" loading="lazy" />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

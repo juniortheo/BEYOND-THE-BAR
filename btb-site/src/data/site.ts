@@ -13,6 +13,8 @@ export const site = {
   email: 'beyondthebar.a@gmail.com',
   linkedinLabel: 'Beyond the Bar (BTB)',
   linkedinUrl: 'https://www.linkedin.com/search/results/all/?keywords=Beyond%20the%20Bar%20(BTB)',
+  xLabel: 'Beyond the Bar (BTB)',
+  xUrl: 'https://x.com/beyondthebarbtb?s=11&t=NiYSD2rZ-thMkoxXp847WQ',
   regions: 'Uganda · Rwanda · East Africa',
   offices: [
     {
@@ -104,7 +106,7 @@ export const programmes: Programme[] = [
     short: 'Webinar & Talk Show Series',
     lede: 'Monthly conversations with leading experts on where law, business and technology are heading.',
     intro: [
-      'BTB hosts monthly webinars, panel discussions, podcasts, and thought-leadership conversations featuring leading experts from law, business, technology, governance, finance, and development sectors.',
+      'BTB hosts monthly webinars, panel discussions and thought-leadership conversations featuring leading experts from law, business, technology, governance, finance, and development sectors.',
       'These engagements provide participants with practical insights on emerging trends, regulatory developments, and regional opportunities while promoting continuous learning and professional networking.',
     ],
     listLabel: 'Key themes include',
@@ -121,7 +123,7 @@ export const programmes: Programme[] = [
     closing:
       'The series provides a platform for meaningful conversations on emerging legal trends, evolving practice areas, technology driven disruption, regional integration, and the future of legal service delivery in Africa and beyond. Through this initiative, both firms aim to educate, engage, and build visibility while fostering stronger professional networks across the region.',
     facts: [
-      { value: 'Monthly', label: 'Webinars, panels and podcasts' },
+      { value: 'Monthly', label: 'Webinars and panel discussions' },
       { value: '8', label: 'Key themes' },
       { value: '109', label: 'Attendees at Webinar Two' },
       { value: '3', label: 'Countries on the Webinar Two panel' },
@@ -242,7 +244,6 @@ export const programmes: Programme[] = [
     facts: [
       { value: '5', label: 'Functions of the Hub' },
       { value: '4', label: 'Publication types: briefs, reports, toolkits, guides' },
-      { value: '16', label: 'Practical checks in the Webinar Two report' },
     ],
     visual: {
       kind: 'cutout',
@@ -315,14 +316,53 @@ export type Country = 'ug' | 'rw' | 'ke'
 export const countryName: Record<Country, string> = { ug: 'Uganda', rw: 'Rwanda', ke: 'Kenya' }
 
 export const secretariat: { name: string; role: string; country: Country; photo: string }[] = [
-  { name: 'Lawrence Magumba', role: 'Team Lead, Uganda', country: 'ug', photo: 'img/team/lawrence-magumba.webp' },
+  { name: 'Ganyanna Sheba Percy', role: 'Team Lead, Uganda', country: 'ug', photo: 'img/team/ganyanna-sheba-percy.webp' },
   { name: 'Bahige David', role: 'Team Lead, Rwanda', country: 'rw', photo: 'img/team/bahige-david.webp' },
-  { name: 'Ganyanna Sheba Percy', role: 'Coordinator, Projects, Events & Conventions', country: 'ug', photo: 'img/team/ganyanna-sheba-percy.webp' },
   { name: 'Ndahiro Arnold', role: 'Coordinator, Innovation & Technology', country: 'rw', photo: 'img/team/ndahiro-arnold.webp' },
   { name: 'Bakesi Jasper', role: 'Head, Legal & Corporate Affairs', country: 'ug', photo: 'img/team/bakesi-jasper.webp' },
-  { name: 'Kabatesi Deborah', role: 'Coordinator, Communication & Public Affairs', country: 'rw', photo: 'img/team/kabatesi-deborah.webp' },
+  { name: 'Kabatesi Deborah', role: 'Coordinator, Projects & Events', country: 'rw', photo: 'img/team/kabatesi-deborah.webp' },
   { name: 'Nansubuga Dallen', role: 'Legal Officer', country: 'ug', photo: 'img/team/nansubuga-dallen.webp' },
   { name: 'Lois Mugeni', role: 'Sustainability & Governance Coordinator', country: 'rw', photo: 'img/team/lois-mugeni.webp' },
   { name: 'Arinda Gloria', role: 'Head, Practice & Administration', country: 'ug', photo: 'img/team/arinda-gloria.webp' },
-  { name: 'Ineza Melissa Julie', role: 'Manager, CSR', country: 'rw', photo: 'img/team/ineza-melissa-julie.webp' },
+  { name: 'Ineza Melissa Julie', role: 'Coordinator, Communications & Public Affairs', country: 'rw', photo: 'img/team/ineza-melissa-julie.webp' },
+]
+
+/**
+ * Reports listed on the Reports page (/reports), newest first.
+ * To publish a new one: add the PDF to public/downloads/, a cover image to public/img/,
+ * and an entry at the top of this list.
+ */
+export type Report = {
+  id: string
+  kind: string
+  series: string
+  date: string
+  title: string
+  subtitle: string
+  description: string
+  file: string
+  downloadName: string
+  pages: number
+  size: string
+  cover: string
+  watch?: string
+}
+
+export const reports: Report[] = [
+  {
+    id: 'webinar-two',
+    kind: 'Session report',
+    series: 'Webinar Two',
+    date: '19 August 2026',
+    title: 'AI in Legal Practice',
+    subtitle: 'Are You Accidentally Breaching Data Protection Law?',
+    description:
+      'A panel from Kenya, Rwanda and Uganda on when everyday use of AI tools becomes a breach of data protection law. Includes the live poll results, each panellist\u2019s arguments and two practical checklists for adopting AI tools.',
+    file: 'downloads/BTB-Webinar-Two-Report-AI-in-Legal-Practice.pdf',
+    downloadName: 'BTB-Webinar-Two-Report-AI-in-Legal-Practice.pdf',
+    pages: 9,
+    size: '4.7 MB',
+    cover: 'img/reports-webinar-two-cover.webp',
+    watch: 'https://www.youtube.com/watch?v=VnhLyd6OX5g',
+  },
 ]

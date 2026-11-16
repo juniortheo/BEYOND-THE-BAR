@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { TLink } from './TLink'
 import { Eyebrow } from './ui/Eyebrow'
 import { Pattern } from './ui/Pattern'
-import { gsap, SplitText, useGSAP, prefersReducedMotion, isDesktop } from '../lib/gsap'
+import { gsap, SplitText, useGSAP, prefersReducedMotion, isDesktop, LINE_FROM } from '../lib/gsap'
 
 type Crumb = { to?: string; label: string }
 
@@ -34,13 +34,14 @@ export function PageHero({
       SplitText.create('.ph-title', {
         type: 'lines',
         mask: 'lines',
+            linesClass: 'split-line',
         autoSplit: true,
         onSplit: (self) =>
           gsap.from(
             self.lines,
             desk
-              ? { yPercent: 115, duration: 1.3, stagger: 0.09, delay: 0.35 }
-              : { yPercent: 110, duration: 0.8, stagger: 0.06, delay: 0.1, ease: 'expo.out' },
+              ? { yPercent: LINE_FROM, duration: 1.3, stagger: 0.09, delay: 0.35 }
+              : { yPercent: LINE_FROM, duration: 0.8, stagger: 0.06, delay: 0.1, ease: 'expo.out' },
           ),
       })
       if (desk) {
