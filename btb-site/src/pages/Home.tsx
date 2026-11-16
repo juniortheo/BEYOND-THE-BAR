@@ -180,13 +180,13 @@ export default function Home() {
             </p>
           </div>
           <div className="j-statue absolute inset-x-0 -bottom-[4svh] flex origin-bottom justify-center sm:bottom-0">
-            <div className="j-statue-inner relative h-[54svh] sm:h-[66svh] lg:h-[86svh]" style={{ aspectRatio: '480 / 984' }}>
+            <div className="j-statue-inner relative h-[54svh] sm:h-[66svh] lg:h-[86svh]" style={{ aspectRatio: '455 / 944' }}>
               <div className="j-glow absolute top-[8%] left-1/2 aspect-square w-[180%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(207,160,113,0.55)_0%,rgba(207,160,113,0.18)_38%,transparent_66%)]" />
               <img
                 src={asset('img/statue-justice.webp')}
                 alt=""
-                width={960}
-                height={1968}
+                width={910}
+                height={1888}
                 fetchPriority="high"
                 onLoad={() => queueRefresh()}
                 className="relative h-full w-full object-contain drop-shadow-[0_40px_50px_rgba(8,38,64,0.28)]"
@@ -255,13 +255,13 @@ export default function Home() {
 
           {/* Lady Justice in the page flow on phones and tablets */}
           <div className="wrap mt-6 lg:hidden" aria-hidden="true">
-            <div className="relative mx-auto h-[min(54svh,520px)]" style={{ aspectRatio: '480 / 984' }}>
+            <div className="relative mx-auto h-[min(54svh,520px)]" style={{ aspectRatio: '455 / 944' }}>
               <div className="absolute top-[8%] left-1/2 aspect-square w-[170%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(207,160,113,0.4)_0%,rgba(207,160,113,0.12)_38%,transparent_66%)]" />
               <img
                 src={asset('img/statue-justice.webp')}
                 alt=""
-                width={960}
-                height={1968}
+                width={910}
+                height={1888}
                 className="j-statue-m relative h-full w-full object-contain drop-shadow-[0_28px_32px_rgba(8,38,64,0.24)]"
               />
             </div>
