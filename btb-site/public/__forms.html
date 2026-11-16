@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Forms</title>
+  </head>
+  <body>
+    <!--
+      Netlify Forms registers forms it finds in static HTML when the site is deployed.
+      The real form is rendered by React (src/components/SessionRegistrationForm.tsx) and
+      submits to this file's path, /__forms.html. Keep the form name and fields in sync with it.
+    -->
+    <form name="next-session-registration" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="organisation" />
+      <select name="country">
+        <option value="Uganda">Uganda</option>
+        <option value="Rwanda">Rwanda</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="text" name="bot-field" />
+    </form>
+  </body>
+</html>

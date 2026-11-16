@@ -7,11 +7,12 @@ import { site } from '../data/site'
 /**
  * Registration for the next session, handled by Netlify Forms.
  *
- * Netlify only detects forms that exist in the deployed HTML, so a hidden copy of this
- * form (same name, same fields) lives in index.html. If you add, rename or remove a field
- * here, change it there too.
+ * Netlify only detects forms that exist in static HTML at deploy time, so a hidden copy of
+ * this form (same name, same fields) lives in public/__forms.html, and submissions are posted
+ * to that file's path. If you add, rename or remove a field here, change it there too.
  */
 export const SESSION_FORM_NAME = 'next-session-registration'
+const SUBMIT_PATH = '/__forms.html'
 const COUNTRIES = ['Uganda', 'Rwanda', 'Other']
 
 type Fields = { name: string; email: string; organisation: string; country: string }
@@ -23,6 +24,7 @@ export function SessionRegistrationForm() {
   const [honeypot, setHoneypot] = useState('')
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({})
   const [status, setStatus] = useState<Status>('idle')
+  const [errorCode, setErrorCode] = useState('')
   const done = useRef<HTMLParagraphElement>(null)
 
   const set = (k: keyof Fields) => (e: { target: { value: string } }) => {
@@ -52,15 +54,22 @@ export function SessionRegistrationForm() {
         country: f.country,
         'bot-field': honeypot,
       })
-      const res = await fetch('/', {
+      const res = await fetch(SUBMIT_PATH, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
       })
-      if (!res.ok) throw new Error(String(res.status))
+      if (!res.ok) {
+        console.error(`Session registration failed: ${res.status} ${res.statusText}`)
+        setErrorCode(`error ${res.status}`)
+        setStatus('error')
+        return
+      }
       setStatus('sent')
       requestAnimationFrame(() => done.current?.focus())
-    } catch {
+    } catch (err) {
+      console.error('Session registration failed:', err)
+      setErrorCode('no connection')
       setStatus('error')
     }
   }
@@ -196,7 +205,7 @@ export function SessionRegistrationForm() {
 
           {status === 'error' && (
             <p className={error} role="alert">
-              Your registration didn’t go through. Please try again, or email {site.email}.
+              Your registration didn’t go through{errorCode ? ` (${errorCode})` : ''}. Please try again, or email {site.email}.
             </p>
           )}
         </form>

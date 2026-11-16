@@ -13,22 +13,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!--
-      Netlify Forms detects forms in the deployed HTML at build time. The real form is
-      rendered by React (src/components/SessionRegistrationForm.tsx), so this hidden copy
-      registers it. Keep its name and fields in sync with that component.
-    -->
-    <form name="next-session-registration" data-netlify="true" netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="text" name="organisation" />
-      <select name="country">
-        <option value="Uganda">Uganda</option>
-        <option value="Rwanda">Rwanda</option>
-        <option value="Other">Other</option>
-      </select>
-      <input type="text" name="bot-field" />
-    </form>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
